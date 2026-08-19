@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>StockPredict - Create Account</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        📈 StockPredict
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#">
+            
+        </a>
+
+        <a href="#">
+            
+        </a>
+
+        <a href="#">
+            
+        </a>
+
+    </div>
+
+    <button id="themeToggle">
+        🌙
+    </button>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <section class="hero-modern">
+
+
+        <!-- LEFT SIDE -->
+
+        <div class="hero-left">
+
+
+            <p class="hero-tag">
+                AI Powered Market Intelligence
+            </p>
+
+
+            <h1>
+
+                Smart
+                <span>Stock Prediction</span>
+
+            </h1>
+
+
+            <p class="hero-text">
+
+                Track market trends and forecast
+                future stock prices with machine
+                learning.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a href="#register"
+                   class="btn-primary">
+
+                    Get Started
+
+                </a>
+
+
+                <a href="#register"
+                   class="btn-secondary">
+
+                    Learn More
+
+                </a>
+
+            </div>
+
+
+            <div class="hero-quote">
+
+                <p>
+                    "Price is what you pay.
+                    Value is what you get."
+                </p>
+
+                <strong>
+                    — Warren Buffett
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="hero-right"
+             id="register">
+
+
+            <div class="auth-card">
+
+
+                <button class="google-btn"
+                        type="button"
+                        onclick="googleRegister()">
+
+                    🔵 Register using Google
+
+                </button>
+
+
+                <div class="divider">
+
+                    <span>
+                        or using email
+                    </span>
+
+                </div>
+
+
+
+                <!-- CREATE ACCOUNT FORM -->
+
+                <form id="registerForm"
+                      class="auth-form">
+
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+
+
+                    <label for="confirmEmail">
+                        Re-enter Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="confirmEmail"
+                        placeholder="Re-enter your email"
+                        required
+                    >
+
+
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create password"
+                        minlength="6"
+                        required
+                    >
+
+
+
+                    <p class="terms">
+
+                        By creating an account you agree to the
+
+                        <a href="#">
+                            Terms of Use
+                        </a>
+
+                        and
+
+                        <a href="#">
+                            Privacy Policy
+                        </a>.
+
+                    </p>
+
+
+
+                    <button
+                        type="submit"
+                        class="create-btn">
+
+                        Create Account
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        © 2026 StockPredict |
+        AI-Powered Stock Price Prediction Dashboard
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="{{ url_for('static', filename='script.js') }}">
+</script>
+
+
+
+
+</body>
+
+</html>

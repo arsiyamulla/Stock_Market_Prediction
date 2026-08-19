@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        StockPredict Dashboard
+    </title>
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- CHART.JS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        📈 StockPredict
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/">
+            Logout
+        </a>
+
+    </div>
+
+
+    <button id="themeToggle">
+        🌙
+    </button>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MOVING STOCK TICKER
+===================================================== -->
+
+<div class="stock-ticker">
+
+    <div class="ticker-track">
+
+
+        <!-- FIRST SET -->
+
+        <div class="ticker-set">
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    BAJFINANCE
+                </span>
+
+                <span class="ticker-price">
+                    1,089.30
+                </span>
+
+                <span class="ticker-up">
+                    ▲ 0.25%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    BHARTIARTL
+                </span>
+
+                <span class="ticker-price">
+                    1,969.30
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 1.14%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    HDFCBANK
+                </span>
+
+                <span class="ticker-price">
+                    729.00
+                </span>
+
+                <span class="ticker-up">
+                    ▲ 0.28%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    HINDUNILVR
+                </span>
+
+                <span class="ticker-price">
+                    2,055.00
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 0.83%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    INDIGO
+                </span>
+
+                <span class="ticker-price">
+                    5,275.50
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 0.74%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    ITC
+                </span>
+
+                <span class="ticker-price">
+                    273.05
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 1.50%
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             SECOND IDENTICAL SET
+             Required for continuous scrolling
+        ================================================= -->
+
+        <div class="ticker-set">
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    BAJFINANCE
+                </span>
+
+                <span class="ticker-price">
+                    1,089.30
+                </span>
+
+                <span class="ticker-up">
+                    ▲ 0.25%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    BHARTIARTL
+                </span>
+
+                <span class="ticker-price">
+                    1,969.30
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 1.14%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    HDFCBANK
+                </span>
+
+                <span class="ticker-price">
+                    729.00
+                </span>
+
+                <span class="ticker-up">
+                    ▲ 0.28%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    HINDUNILVR
+                </span>
+
+                <span class="ticker-price">
+                    2,055.00
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 0.83%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    INDIGO
+                </span>
+
+                <span class="ticker-price">
+                    5,275.50
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 0.74%
+                </span>
+
+            </div>
+
+
+            <div class="ticker-item">
+
+                <span class="ticker-name">
+                    ITC
+                </span>
+
+                <span class="ticker-price">
+                    273.05
+                </span>
+
+                <span class="ticker-down">
+                    ▼ 1.50%
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN DASHBOARD
+===================================================== -->
+
+<main class="dashboard-container">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================= -->
+
+    <div class="dashboard-header">
+
+
+        <div>
+
+            <p class="hero-tag">
+                AI Powered Market Intelligence
+            </p>
+
+
+            <h1>
+                Stock Prediction Dashboard
+            </h1>
+
+
+            <p class="dashboard-subtitle">
+
+                Analyze stock prices and predict
+                future market trends.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- STOCK SELECTOR -->
+
+        <div class="stock-selector">
+
+            <label for="stockSelect">
+                Select Stock
+            </label>
+
+
+            <select
+                id="stockSelect"
+                onchange="changeStock()">
+
+
+                {% for symbol, company in companies.items() %}
+
+                <option
+                    value="{{ symbol }}"
+                    {% if symbol == selected_stock %}
+                        selected
+                    {% endif %}
+                >
+
+                    {{ company }} ({{ symbol }})
+
+                </option>
+
+                {% endfor %}
+
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         STOCK CARDS
+    ================================================= -->
+
+    <section class="stock-cards">
+
+
+        <!-- CURRENT PRICE -->
+
+        <div class="stock-card">
+
+            <p>
+                Current Price
+            </p>
+
+            <h2 id="currentPrice">
+                ${{ current_price }}
+            </h2>
+
+        </div>
+
+
+
+        <!-- PREVIOUS CLOSE -->
+
+        <div class="stock-card">
+
+            <p>
+                Previous Close
+            </p>
+
+            <h2>
+                ${{ previous_close }}
+            </h2>
+
+        </div>
+
+
+
+        <!-- CHANGE -->
+
+        <div class="stock-card">
+
+            <p>
+                Today's Change
+            </p>
+
+            <h2
+                class="{% if change_percent >= 0 %}positive{% else %}negative{% endif %}">
+
+                {{ change_percent }}%
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- COMPANY -->
+
+        <div class="stock-card">
+
+            <p>
+                Company
+            </p>
+
+            <h2>
+                {{ company_name }}
+            </h2>
+
+        </div>
+
+
+    </section>
+
+
+
+    
+    <!-- =================================================
+         LIVE STOCK GRAPH
+    ================================================= -->
+
+    <section class="chart-card live-stock-card">
+
+
+        <div class="chart-header">
+
+
+            <div>
+
+                <div class="live-title-row">
+
+                    <span class="live-dot">
+                    </span>
+
+                    <h2>
+                        Live Stock Price
+                    </h2>
+
+                </div>
+
+
+                <p>
+
+                    {{ company_name }}
+                    ({{ selected_stock }})
+
+                    · Latest available market data
+
+                </p>
+
+            </div>
+
+
+
+            <!-- LIVE PRICE -->
+
+            <div class="live-price-display">
+
+                <span id="livePrice">
+                    Loading...
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- LIVE STATUS -->
+
+        <div
+            id="liveStatus"
+            class="live-status">
+
+            Connecting to market data...
+
+        </div>
+
+
+
+        <!-- LIVE GRAPH -->
+
+        <div class="chart-container">
+
+            <canvas id="liveStockChart">
+            </canvas>
+
+        </div>
+
+
+    </section>
+
+    <!-- =================================================
+         HISTORICAL GRAPH
+    ================================================= -->
+
+    <section class="chart-card">
+
+
+        <div class="chart-header">
+
+            <div>
+
+                <h2>
+
+                    {{ company_name }}
+                    ({{ selected_stock }})
+
+                </h2>
+
+
+                <p>
+                    Historical Stock Price
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-container">
+
+            <canvas id="stockChart">
+            </canvas>
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+
+    <!-- =================================================
+         PREDICTION
+    ================================================= -->
+
+    <section class="prediction-card">
+
+
+        <div class="prediction-left">
+
+
+            <p class="hero-tag">
+                Machine Learning Prediction
+            </p>
+
+
+            <h2>
+                Predict Future Stock Price
+            </h2>
+
+
+            <p>
+
+                Enter the number of days to estimate
+                the future stock price.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- PREDICTION FORM -->
+
+        <form id="predictionForm">
+
+
+            <label for="days">
+                Prediction Days
+            </label>
+
+
+            <input
+                type="number"
+                id="days"
+                min="1"
+                max="365"
+                value="7"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="create-btn">
+
+                Predict Price
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- RESULT -->
+
+        <div class="prediction-result">
+
+
+            <p>
+                Predicted Price
+            </p>
+
+
+            <h2 id="futurePrice">
+                -
+            </h2>
+
+
+            <p id="predictionValue">
+
+                Enter days and click
+                Predict
+
+            </p>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+
+        © 2026 StockPredict |
+        AI-Powered Stock Price Prediction Dashboard
+
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     FLASK DATA
+===================================================== -->
+
+<script
+    id="stock-data"
+    type="application/json">
+
+{
+    "labels": {{ labels | tojson }},
+    "prices": {{ prices | tojson }}
+}
+
+</script>
+
+
+
+<!-- =====================================================
+     MAIN JAVASCRIPT
+===================================================== -->
+
+<script
+    src="{{ url_for('static', filename='script.js') }}">
+</script>
+
+
+
+<!-- =====================================================
+     CHANGE STOCK
+===================================================== -->
+
+<script>
+
+function changeStock() {
+
+    const stock =
+        document.getElementById(
+            "stockSelect"
+        ).value;
+
+
+    window.location.href =
+        "/dashboard?stock=" + stock;
+
+}
+
+</script>
+
+
+
+<!-- =====================================================
+     LINEAR REGRESSION PREDICTION
+===================================================== -->
+
+<script>
+
+const predictionForm =
+    document.getElementById(
+        "predictionForm"
+    );
+
+
+if (predictionForm) {
+
+    predictionForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const stock =
+                document.getElementById(
+                    "stockSelect"
+                ).value;
+
+
+            const days =
+                document.getElementById(
+                    "days"
+                ).value;
+
+
+            const futurePrice =
+                document.getElementById(
+                    "futurePrice"
+                );
+
+
+            const predictionValue =
+                document.getElementById(
+                    "predictionValue"
+                );
+
+
+            futurePrice.textContent =
+                "...";
+
+
+            predictionValue.textContent =
+                "Calculating prediction...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/predict?stock=${stock}&days=${days}`
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (data.error) {
+
+                    futurePrice.textContent =
+                        "-";
+
+
+                    predictionValue.textContent =
+                        data.error;
+
+                    return;
+
+                }
+
+
+                futurePrice.textContent =
+                    "$" +
+                    data.predicted_price;
+
+
+                predictionValue.textContent =
+                    "Linear Regression prediction for " +
+                    data.prediction_days +
+                    " day(s)";
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Prediction error:",
+                    error
+                );
+
+
+                futurePrice.textContent =
+                    "-";
+
+
+                predictionValue.textContent =
+                    "Unable to calculate prediction.";
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+
+
+<!-- =====================================================
+     LIVE STOCK GRAPH
+===================================================== -->
+
+<script>
+
+let liveStockChart = null;
+
+
+
+// =====================================================
+// LOAD LIVE STOCK
+// =====================================================
+
+async function loadLiveStock() {
+
+    const stock =
+        document.getElementById(
+            "stockSelect"
+        ).value;
+
+
+    const livePrice =
+        document.getElementById(
+            "livePrice"
+        );
+
+
+    const liveStatus =
+        document.getElementById(
+            "liveStatus"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/live-stock?stock=${stock}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.error) {
+
+            livePrice.textContent =
+                "--";
+
+
+            liveStatus.textContent =
+                data.error;
+
+
+            liveStatus.className =
+                "live-status live-error";
+
+
+            return;
+
+        }
+
+
+
+        // CURRENT PRICE
+
+        livePrice.textContent =
+            "$" +
+            Number(data.price).toFixed(2);
+
+
+
+        // PRICE COLOR
+
+        livePrice.classList.remove(
+            "live-positive",
+            "live-negative"
+        );
+
+
+        if (data.change >= 0) {
+
+            livePrice.classList.add(
+                "live-positive"
+            );
+
+        }
+
+        else {
+
+            livePrice.classList.add(
+                "live-negative"
+            );
+
+        }
+
+
+
+        // STATUS
+
+        liveStatus.textContent =
+            "● Market data updated";
+
+
+        liveStatus.className =
+            "live-status live-connected";
+
+
+
+        // DRAW GRAPH
+
+        drawLiveChart(
+            data.labels,
+            data.prices
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Live stock error:",
+            error
+        );
+
+
+        livePrice.textContent =
+            "--";
+
+
+        liveStatus.textContent =
+            "Unable to connect to market data";
+
+
+        liveStatus.className =
+            "live-status live-error";
+
+    }
+
+}
+
+
+
+// =====================================================
+// DRAW LIVE GRAPH
+// ONE CONTINUOUS LINE
+// GREEN / RED SEGMENTS
+// =====================================================
+
+function drawLiveChart(
+    labels,
+    prices
+) {
+
+    const canvas =
+        document.getElementById(
+            "liveStockChart"
+        );
+
+
+    if (!canvas) {
+        return;
+    }
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    if (liveStockChart) {
+
+        liveStockChart.destroy();
+
+    }
+
+
+    liveStockChart =
+        new Chart(
+            ctx,
+            {
+
+                type: "line",
+
+
+                data: {
+
+                    labels: labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Live Stock Price",
+
+
+                            data:
+                                prices,
+
+
+                            borderColor:
+                                "#16a34a",
+
+
+                            backgroundColor:
+                                "rgba(22, 163, 74, 0.08)",
+
+
+                            borderWidth:
+                                3,
+
+
+                            tension:
+                                0.35,
+
+
+                            fill:
+                                true,
+
+
+                            pointRadius:
+                                2,
+
+
+                            pointHoverRadius:
+                                6,
+
+
+                            pointBackgroundColor:
+                                "#16a34a",
+
+
+                            pointBorderColor:
+                                "#16a34a",
+
+
+                            segment: {
+
+                                borderColor:
+                                    function(context) {
+
+                                        const index =
+                                            context.p1DataIndex;
+
+
+                                        if (
+                                            index === 0
+                                        ) {
+
+                                            return "#16a34a";
+
+                                        }
+
+
+                                        const current =
+                                            prices[index];
+
+
+                                        const previous =
+                                            prices[index - 1];
+
+
+                                        if (
+                                            current >=
+                                            previous
+                                        ) {
+
+                                            return "#16a34a";
+
+                                        }
+
+
+                                        return "#dc2626";
+
+                                    }
+
+                            }
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    animation:
+                        false,
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display:
+                                true,
+
+                            position:
+                                "top"
+
+                        },
+
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label:
+                                    function(context) {
+
+                                        return (
+                                            "$" +
+                                            Number(
+                                                context.parsed.y
+                                            ).toFixed(2)
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero:
+                                false
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+}
+
+
+
+// =====================================================
+// FIRST LOAD
+// =====================================================
+
+loadLiveStock();
+
+
+
+// =====================================================
+// UPDATE EVERY 60 SECONDS
+// =====================================================
+
+setInterval(
+    loadLiveStock,
+    60000
+);
+
+</script>
+
+
+</body>
+
+</html>
