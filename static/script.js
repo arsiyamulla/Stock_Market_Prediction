@@ -767,15 +767,36 @@ async function startMovingLiveGraph() {
                 }
 
 
-                // Update live price
+                 // Update live price
+
+                // if (livePrice) {
+
+                //     livePrice.textContent =
+                //         "$" +
+                //         currentPrice.toFixed(2);
+
+                // }
 
                 if (livePrice) {
 
-                    livePrice.textContent =
-                        "$" +
-                        currentPrice.toFixed(2);
+    livePrice.textContent =
+        "$" +
+        currentPrice.toFixed(2);
 
-                }
+    // Restart price animation
+    livePrice.classList.remove(
+        "live-price-change"
+    );
+
+    void livePrice.offsetWidth;
+
+    livePrice.classList.add(
+        "live-price-change"
+    );
+}
+
+
+
 
 
                 movingLiveChart.update();
@@ -927,9 +948,36 @@ if (predictionForm) {
                 }
 
 
+                // futurePrice.textContent =
+                //     "$" +
+                //     data.predicted_price;
+
                 futurePrice.textContent =
-                    "$" +
-                    data.predicted_price;
+    "$" +
+    data.predicted_price;
+
+
+// Prediction result animation
+const predictionResult =
+    document.querySelector(
+        ".prediction-result"
+    );
+
+if (predictionResult) {
+
+    predictionResult.classList.remove(
+        "result-show"
+    );
+
+    void predictionResult.offsetWidth;
+
+    predictionResult.classList.add(
+        "result-show"
+    );
+}
+
+
+
 
 
                 predictionValue.textContent =

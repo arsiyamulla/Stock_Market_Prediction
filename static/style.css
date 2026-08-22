@@ -1480,3 +1480,613 @@ body.dark .stock-ticker {
         font-size: 13px;
     }
 }
+
+/* =====================================================
+   STOCKPREDICT - PROFESSIONAL ANIMATIONS
+   Added without changing existing UI
+===================================================== */
+
+
+/* =====================================================
+   PAGE ENTRANCE
+===================================================== */
+
+.dashboard-container {
+    animation: dashboardFadeIn 0.7s ease-out both;
+}
+
+@keyframes dashboardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+    animation: navbarDrop 0.6s ease-out both;
+}
+
+@keyframes navbarDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   DASHBOARD HEADER
+===================================================== */
+
+.dashboard-header {
+    animation: headerReveal 0.7s ease-out 0.15s both;
+}
+
+@keyframes headerReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   STOCK CARDS
+===================================================== */
+
+.stock-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    animation: cardReveal 0.6s ease-out both;
+}
+
+.stock-card:nth-child(1) {
+    animation-delay: 0.15s;
+}
+
+.stock-card:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.stock-card:nth-child(3) {
+    animation-delay: 0.35s;
+}
+
+.stock-card:nth-child(4) {
+    animation-delay: 0.45s;
+}
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* CARD HOVER */
+
+.stock-card:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 16px 35px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =====================================================
+   STOCK SELECTOR
+===================================================== */
+
+.stock-selector {
+    animation: selectorReveal 0.7s ease-out 0.3s both;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.stock-selector:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 14px 35px rgba(15, 23, 42, 0.09);
+}
+
+@keyframes selectorReveal {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* =====================================================
+   CHART CARDS
+===================================================== */
+
+.chart-card {
+    animation: chartReveal 0.8s ease-out both;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.chart-card:nth-of-type(1) {
+    animation-delay: 0.5s;
+}
+
+.chart-card:hover {
+    box-shadow:
+        0 15px 40px rgba(15, 23, 42, 0.09);
+}
+
+@keyframes chartReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   LIVE PRICE UPDATE
+===================================================== */
+
+.live-price-change {
+    animation: livePricePulse 0.5s ease;
+}
+
+@keyframes livePricePulse {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.10);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* =====================================================
+   LIVE STATUS
+===================================================== */
+
+.live-connected {
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.65;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   PREDICTION CARD
+===================================================== */
+
+.prediction-card {
+    animation: predictionReveal 0.8s ease-out 0.6s both;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.prediction-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 16px 40px rgba(15, 23, 42, 0.09);
+}
+
+@keyframes predictionReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   PREDICTION RESULT
+===================================================== */
+
+.prediction-result {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.prediction-result.result-show {
+    animation: predictionResultPop 0.55s ease-out;
+}
+
+@keyframes predictionResultPop {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* =====================================================
+   PREDICT BUTTON
+===================================================== */
+
+.create-btn {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.create-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.create-btn:active {
+    transform: scale(0.97);
+}
+
+
+/* =====================================================
+   BUTTON SHINE EFFECT
+===================================================== */
+
+.create-btn::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 60%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.25),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.6s ease;
+}
+
+.create-btn:hover::after {
+    left: 130%;
+}
+
+
+/* =====================================================
+   LIVE PRICE
+===================================================== */
+
+.live-price-display {
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+
+/* =====================================================
+   CHATBOT BUTTON
+===================================================== */
+
+.chatbot-button {
+    animation: chatbotAppear 0.7s ease-out 1s both;
+}
+
+@keyframes chatbotAppear {
+
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* CHATBOT BUTTON PULSE */
+
+.chatbot-button::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 18px;
+
+    border: 2px solid rgba(37, 99, 235, 0.35);
+
+    animation: chatbotPulse 2.5s infinite;
+}
+
+@keyframes chatbotPulse {
+
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    70% {
+        transform: scale(1.18);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1.18);
+        opacity: 0;
+    }
+}
+
+
+/* =====================================================
+   CHATBOT WINDOW
+===================================================== */
+
+.chatbot-window {
+    transform-origin: bottom right;
+}
+
+.chatbot-window.active {
+    display: flex;
+
+    animation: chatbotOpen 0.3s ease-out both;
+}
+
+@keyframes chatbotOpen {
+
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* =====================================================
+   CHATBOT MESSAGES
+===================================================== */
+
+.bot-message,
+.user-message {
+    animation: messageAppear 0.3s ease-out both;
+}
+
+@keyframes messageAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   CHAT QUESTIONS
+===================================================== */
+
+.chat-question {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.chat-question:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 14px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    animation: footerFade 1s ease-out 0.8s both;
+}
+
+@keyframes footerFade {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+}
+
+/* =====================================================
+   DASHBOARD HEADER ANIMATION
+===================================================== */
+
+/* Hide before animation */
+.badge-animation,
+.title-animation,
+.subtitle-animation,
+.selector-animation{
+    opacity: 0;
+}
+
+/* Badge */
+.badge-animation{
+    animation: fadeDown .8s ease forwards;
+}
+
+/* Title */
+.title-animation{
+    animation: slideUp .9s ease .2s forwards;
+}
+
+/* Subtitle */
+.subtitle-animation{
+    animation: fadeIn .8s ease .5s forwards;
+}
+
+/* Stock selector */
+.selector-animation{
+    animation: slideLeft .9s ease .7s forwards;
+}
+
+/* ---------------- Keyframes ---------------- */
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes slideUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes slideLeft{
+    from{
+        opacity:0;
+        transform:translateX(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+/* Hover effect for selector */
+.stock-selector{
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.stock-selector:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 35px rgba(15,23,42,.12);
+}
+
