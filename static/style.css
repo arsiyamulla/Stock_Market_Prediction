@@ -2090,3 +2090,933 @@ footer {
     box-shadow: 0 16px 35px rgba(15,23,42,.12);
 }
 
+/* =====================================================
+   NEW ANIMATIONS ADDED FOR FRONT PAGE
+===================================================== */
+
+/* =====================================================
+   NAVBAR SLIDE DOWN
+===================================================== */
+.navbar {
+    animation: navbarSlideDown 0.8s ease-out forwards;
+}
+
+@keyframes navbarSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   STOCK TICKER FADE IN
+===================================================== */
+.stock-ticker {
+    animation: tickerFadeIn 0.8s ease-out 0.1s forwards;
+    opacity: 0;
+}
+
+@keyframes tickerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   HEADER CONTENT FADE UP
+===================================================== */
+.header-content {
+    animation: headerContentFade 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+@keyframes headerContentFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   SELECTOR SLIDE RIGHT
+===================================================== */
+.selector-animation {
+    animation: selectorSlideRight 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes selectorSlideRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* =====================================================
+   STOCK CARDS STAGGERED SCALE
+===================================================== */
+.stock-cards .stock-card {
+    opacity: 0;
+    animation: cardScaleIn 0.6s ease-out forwards;
+}
+
+.stock-cards .stock-card:nth-child(1) {
+    animation-delay: 0.4s;
+}
+.stock-cards .stock-card:nth-child(2) {
+    animation-delay: 0.5s;
+}
+.stock-cards .stock-card:nth-child(3) {
+    animation-delay: 0.6s;
+}
+.stock-cards .stock-card:nth-child(4) {
+    animation-delay: 0.7s;
+}
+
+@keyframes cardScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* =====================================================
+   LIVE STOCK CARD FADE UP
+===================================================== */
+.live-stock-card {
+    opacity: 0;
+    animation: liveCardFade 0.8s ease-out 0.5s forwards;
+}
+
+@keyframes liveCardFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   LIVE STATUS PULSE GLOW
+===================================================== */
+.live-status.live-connected {
+    animation: statusGlow 2s ease-in-out infinite;
+}
+
+@keyframes statusGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px 5px rgba(22, 163, 74, 0.15);
+    }
+}
+
+/* =====================================================
+   LIVE DOT PULSE
+===================================================== */
+.live-dot {
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.4);
+        opacity: 0.6;
+    }
+}
+
+/* =====================================================
+   CHART CARD FADE UP
+===================================================== */
+.chart-card:not(.live-stock-card) {
+    opacity: 0;
+    animation: chartFadeUp 0.8s ease-out 0.7s forwards;
+}
+
+@keyframes chartFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   PREDICTION CARD FADE UP
+===================================================== */
+.prediction-card {
+    opacity: 0;
+    animation: predictionFadeUp 0.8s ease-out 0.9s forwards;
+}
+
+@keyframes predictionFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   FOOTER FADE IN
+===================================================== */
+footer {
+    opacity: 0;
+    animation: footerFadeIn 0.8s ease-out 1.1s forwards;
+}
+
+@keyframes footerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   LIVE PRICE FLOAT
+===================================================== */
+.live-price-display .live-positive {
+    animation: priceFloat 2.5s ease-in-out infinite;
+}
+
+.live-price-display .live-negative {
+    animation: priceFloat 2.5s ease-in-out infinite 0.5s;
+}
+
+@keyframes priceFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* =====================================================
+   CREATE BUTTON SHIMMER
+===================================================== */
+.create-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.create-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%
+    );
+    animation: btnShimmer 3s ease-in-out infinite;
+}
+
+@keyframes btnShimmer {
+    0% {
+        transform: translateX(-100%) rotate(25deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(25deg);
+    }
+}
+
+/* =====================================================
+   NAV LINKS UNDERLINE ANIMATION
+===================================================== */
+.nav-links a {
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #2563eb;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* =====================================================
+   THEME TOGGLE ROTATE
+===================================================== */
+#themeToggle {
+    transition: all 0.3s ease;
+}
+
+#themeToggle:hover {
+    transform: rotate(25deg) scale(1.1);
+}
+
+/* =====================================================
+   SELECT DROPDOWN GLOW
+===================================================== */
+#stockSelect {
+    transition: all 0.3s ease;
+}
+
+#stockSelect:hover {
+    border-color: #2563eb;
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+}
+
+/* =====================================================
+   PREDICTION RESULT POP
+===================================================== */
+.prediction-result h2 {
+    transition: all 0.5s ease;
+}
+
+.prediction-result h2:not(:empty) {
+    animation: resultPop 0.5s ease forwards;
+}
+
+@keyframes resultPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* =====================================================
+   ACCOUNT CREATION PAGE - ANIMATIONS ONLY
+===================================================== */
+
+/* Main account page entrance */
+.auth-card {
+    animation: accountCardEnter 0.8s ease-out both;
+}
+
+@keyframes accountCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* Account card hover */
+.auth-card {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 25px 55px rgba(15, 23, 42, 0.12);
+}
+
+
+/* Google button */
+.google-btn {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.google-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.10);
+}
+
+.google-btn:active {
+    transform: scale(0.98);
+}
+
+
+/* Form fields */
+.auth-form input {
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+.auth-form input:focus {
+    transform: translateY(-1px);
+    border-color: #2563eb;
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, 0.10);
+}
+
+
+/* Create Account button */
+.create-btn {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.create-btn:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.30);
+}
+
+.create-btn:active {
+    transform: scale(0.97);
+}
+
+
+/* Button shine */
+.create-btn::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+    transition: left 0.7s ease;
+}
+
+.create-btn:hover::after {
+    left: 140%;
+}
+
+
+/* Terms links */
+.terms a {
+    transition: color 0.2s ease;
+}
+
+.terms a:hover {
+    color: #1d4ed8;
+}
+
+
+/* Navbar on account page */
+.navbar {
+    animation: accountNavbarEnter 0.7s ease-out both;
+}
+
+@keyframes accountNavbarEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Logo */
+.logo {
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.03);
+}
+
+
+/* Footer */
+footer {
+    animation: accountFooterEnter 0.8s ease-out 0.4s both;
+}
+
+@keyframes accountFooterEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .auth-card,
+    .navbar,
+    footer {
+        animation: none !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =================================
+   SMART STOCK PREDICTION
+   TYPING + GLOW ANIMATION
+================================= */
+
+.typing-title {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+
+    border-right: 3px solid #00ff88;
+
+    text-shadow:
+        0 0 5px rgba(0, 255, 136, 0.4),
+        0 0 15px rgba(0, 255, 136, 0.25);
+
+    animation:
+        typing 2.8s steps(22, end) forwards,
+        cursorBlink 0.7s step-end infinite,
+        titleGlow 3s ease-in-out 2.8s infinite;
+}
+
+/* Typing effect */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 22ch;
+    }
+}
+
+/* Blinking cursor */
+@keyframes cursorBlink {
+    0%, 100% {
+        border-color: #00ff88;
+    }
+
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* Glow after typing */
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 5px rgba(0, 255, 136, 0.3),
+            0 0 10px rgba(0, 255, 136, 0.2);
+    }
+
+    50% {
+        text-shadow:
+            0 0 8px rgba(0, 255, 136, 0.8),
+            0 0 20px rgba(0, 255, 136, 0.6),
+            0 0 40px rgba(0, 255, 136, 0.3);
+    }
+}
+/* =====================================================
+   TREND BADGE
+===================================================== */
+
+.trend-card {
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    background: var(--card-bg, #ffffff);
+
+    border: 1px solid
+        var(--border-color, #e5e7eb);
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.06);
+
+}
+
+
+.trend-content {
+
+    text-align: center;
+
+}
+
+
+.trend-label {
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    opacity: 0.7;
+
+}
+
+
+#trendBadge {
+
+    display: inline-block;
+
+    margin: 5px 0 10px;
+
+    padding: 10px 20px;
+
+    border-radius: 30px;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+.trend-bullish {
+
+    color: #15803d;
+
+    background: #dcfce7;
+
+}
+
+
+.trend-bearish {
+
+    color: #b91c1c;
+
+    background: #fee2e2;
+
+}
+
+
+.trend-stable {
+
+    color: #a16207;
+
+    background: #fef9c3;
+
+}
+
+
+.trend-change {
+
+    margin: 0;
+
+    font-size: 14px;
+
+    opacity: 0.7;
+
+}
+
+
+.trend-change span {
+
+    margin-left: 5px;
+
+}
+.week-range-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* =====================================================
+   WEEKLY PRICE RANGE
+===================================================== */
+
+.weekly-range-section {
+    width: 90%;
+    max-width: 900px;
+    margin: 28px auto;
+    padding: 25px 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.weekly-range-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.weekly-range-header > div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.weekly-range-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef3ff;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+.weekly-range-header h3 {
+    margin: 0;
+    font-size: 19px;
+    color: #172033;
+}
+
+.weekly-range-header p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #7a8497;
+}
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.weekly-range-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+}
+
+/* =====================================================
+   VALUE CARDS
+===================================================== */
+
+.weekly-value {
+    min-width: 150px;
+    padding: 18px 22px;
+    border-radius: 15px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.low-value {
+    background: #fff1f1;
+    border: 1px solid #ffdada;
+}
+
+.high-value {
+    background: #edfff5;
+    border: 1px solid #cef5dd;
+}
+
+.value-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+}
+
+.low-value .value-label {
+    color: #e05252;
+}
+
+.high-value .value-label {
+    color: #1da85c;
+}
+
+.weekly-value strong {
+    font-size: 24px;
+    color: #111827;
+}
+
+/* =====================================================
+   RANGE BAR
+===================================================== */
+
+.range-wrapper {
+    flex: 1;
+    max-width: 380px;
+    position: relative;
+    padding: 15px 0;
+}
+
+.range-line {
+    height: 8px;
+    width: 100%;
+    background: #e7ebf2;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.range-fill {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(
+        90deg,
+        #ef5350,
+        #f5c542,
+        #22c55e
+    );
+}
+
+/* =====================================================
+   RANGE DOTS
+===================================================== */
+
+.range-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 13px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.range-dots span {
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 3px solid #9aa4b2;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.range-dots span:first-child {
+    border-color: #ef5350;
+}
+
+.range-dots span:last-child {
+    border-color: #22c55e;
+}
+
+/* =====================================================
+   HOVER EFFECT
+===================================================== */
+
+.weekly-value {
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.weekly-value:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .weekly-range-section {
+        width: 94%;
+        padding: 20px;
+    }
+
+    .weekly-range-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .weekly-value {
+        width: 100%;
+    }
+
+    .range-wrapper {
+        width: 90%;
+        max-width: none;
+        order: 2;
+    }
+
+    .low-value {
+        order: 1;
+    }
+
+    .high-value {
+        order: 3;
+    }
+}

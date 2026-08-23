@@ -644,7 +644,113 @@
 
 </main>
 
+<!-- =================================================
+     TREND BADGE
+================================================= -->
 
+<section class="trend-card">
+
+    <div class="trend-content">
+
+        <p class="trend-label">
+            Market Trend
+        </p>
+
+        <h2
+            id="trendBadge"
+            class="{% if trend == 'Bullish' %}
+                       trend-bullish
+                   {% elif trend == 'Bearish' %}
+                       trend-bearish
+                   {% else %}
+                       trend-stable
+                   {% endif %}"
+        >
+
+            {% if trend == "Bullish" %}
+
+                📈 Bullish
+
+            {% elif trend == "Bearish" %}
+
+                📉 Bearish
+
+            {% else %}
+
+                ➖ Stable
+
+            {% endif %}
+
+        </h2>
+
+        <p class="trend-change">
+
+            {% if trend_change >= 0 %}
+                +{{ trend_change }}%
+            {% else %}
+                {{ trend_change }}%
+            {% endif %}
+
+            <span>
+                based on recent price movement
+            </span>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WEEKLY RANGE
+===================================================== -->
+
+<div class="weekly-range-section">
+
+    <div class="weekly-range-header">
+        <div>
+            <span class="weekly-range-icon">📊</span>
+            <div>
+                <h3>Weekly Price Range</h3>
+                <p>Last 5 trading days</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="weekly-range-content">
+
+        <!-- WEEK LOW -->
+        <div class="weekly-value low-value">
+            <span class="value-label">WEEK LOW</span>
+            <strong>${{ week_low }}</strong>
+        </div>
+
+        <!-- RANGE BAR -->
+        <div class="range-wrapper">
+
+            <div class="range-line">
+                <div class="range-fill"></div>
+            </div>
+
+            <div class="range-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+        </div>
+
+        <!-- WEEK HIGH -->
+        <div class="weekly-value high-value">
+            <span class="value-label">WEEK HIGH</span>
+            <strong>${{ week_high }}</strong>
+        </div>
+
+    </div>
+
+</div>
 
 <!-- =====================================================
      FOOTER

@@ -27,7 +27,10 @@ COMPANIES = {
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+
+    return render_template(
+        "index.html"
+    )
 
 
 # =========================================================
@@ -43,6 +46,7 @@ def dashboard():
     )
 
     if stock not in COMPANIES:
+
         stock = "GOOGL"
 
     file_path = os.path.join(
@@ -51,6 +55,7 @@ def dashboard():
     )
 
     if not os.path.exists(file_path):
+
         return f"""
         <h2>CSV file not found</h2>
         <p>Expected file:</p>
@@ -63,10 +68,14 @@ def dashboard():
         # READ CSV
         # =================================================
 
-        dataset = pd.read_csv(file_path)
+        dataset = pd.read_csv(
+            file_path
+        )
 
         if dataset.empty:
+
             return "CSV file is empty."
+
 
         # =================================================
         # DATE COLUMN
@@ -79,27 +88,34 @@ def dashboard():
             inplace=True
         )
 
+
         # =================================================
         # CLOSE COLUMN
         # =================================================
 
         if "Close" not in dataset.columns:
+
             return """
             <h2>Close column not found in CSV.</h2>
             <p>Your CSV must contain a column named Close.</p>
             """
+
 
         dataset["Close"] = pd.to_numeric(
             dataset["Close"],
             errors="coerce"
         )
 
+
         dataset = dataset.dropna(
             subset=["Close"]
         )
 
+
         if len(dataset) < 2:
+
             return "CSV does not contain enough stock price data."
+
 
         # =================================================
         # LINEAR REGRESSION
@@ -117,6 +133,7 @@ def dashboard():
             X,
             y
         )
+
 
         # =================================================
         # FUTURE PREDICTION
@@ -138,11 +155,14 @@ def dashboard():
             for price in future_predictions
         ]
 
+
         # =================================================
         # GRAPH DATA
         # =================================================
 
-        graph_data = dataset.tail(30)
+        graph_data = dataset.tail(
+            30
+        )
 
         labels = graph_data[
             "Date"
@@ -152,23 +172,30 @@ def dashboard():
             "Close"
         ].astype(float).tolist()
 
+
         # =================================================
         # CURRENT PRICE
         # =================================================
 
         current_price = round(
-            float(dataset["Close"].iloc[-1]),
+            float(
+                dataset["Close"].iloc[-1]
+            ),
             2
         )
+
 
         # =================================================
         # PREVIOUS CLOSE
         # =================================================
 
         previous_close = round(
-            float(dataset["Close"].iloc[-2]),
+            float(
+                dataset["Close"].iloc[-2]
+            ),
             2
         )
+
 
         # =================================================
         # CHANGE %
@@ -178,7 +205,10 @@ def dashboard():
 
             change_percent = round(
                 (
-                    (current_price - previous_close)
+                    (
+                        current_price -
+                        previous_close
+                    )
                     / previous_close
                 ) * 100,
                 2
@@ -188,11 +218,138 @@ def dashboard():
 
             change_percent = 0
 
+
+        # =================================================
+        # TREND BADGE
+        # =================================================
+        #
+        # We compare:
+        #
+        # Previous 5 trading days average
+        #
+        #          VS
+        #
+        # Recent 5 trading days average
+        #
+        # =================================================
+
+        recent_prices = dataset[
+            "Close"
+        ].tail(20)
+
+
+        if len(recent_prices) >= 10:
+
+            # ---------------------------------------------
+            # RECENT 5-DAY AVERAGE
+            # ---------------------------------------------
+
+            recent_average = recent_prices.tail(
+                5
+            ).mean()
+
+
+            # ---------------------------------------------
+            # PREVIOUS 5-DAY AVERAGE
+            # ---------------------------------------------
+
+            previous_average = recent_prices.iloc[
+                -10:-5
+            ].mean()
+
+
+            # ---------------------------------------------
+            # CALCULATE TREND CHANGE
+            # ---------------------------------------------
+
+            if previous_average != 0:
+
+                trend_change = (
+                    (
+                        recent_average -
+                        previous_average
+                    )
+                    / previous_average
+                ) * 100
+
+            else:
+
+                trend_change = 0
+
+
+            # ---------------------------------------------
+            # TREND DECISION
+            # ---------------------------------------------
+
+            # More than +1%
+            # = Bullish
+
+            if trend_change > 1:
+
+                trend = "Bullish"
+
+
+            # Less than -1%
+            # = Bearish
+
+            elif trend_change < -1:
+
+                trend = "Bearish"
+
+
+            # Between -1% and +1%
+            # = Stable
+
+            else:
+
+                trend = "Stable"
+
+
+        else:
+
+            trend = "Stable"
+
+            trend_change = 0
+
+
+        # =================================================
+        # WEEK HIGH / WEEK LOW
+        # =================================================
+        #
+        # Last 7 trading days
+        #
+        # Week High = highest closing price
+        # Week Low  = lowest closing price
+        #
+        # =================================================
+
+        week_data = dataset.tail(
+            7
+        )
+
+
+        week_high = round(
+            float(
+                week_data["Close"].max()
+            ),
+            2
+        )
+
+
+        week_low = round(
+            float(
+                week_data["Close"].min()
+            ),
+            2
+        )
+
+
         # =================================================
         # SEND DATA TO DASHBOARD
         # =================================================
 
         return render_template(
+
             "dashboard.html",
 
             labels=labels,
@@ -211,8 +368,31 @@ def dashboard():
 
             companies=COMPANIES,
 
-            future_predictions=future_predictions
+            future_predictions=future_predictions,
+
+
+            # =================================================
+            # TREND DATA
+            # =================================================
+
+            trend=trend,
+
+            trend_change=round(
+                trend_change,
+                2
+            ),
+
+
+            # =================================================
+            # WEEK HIGH / WEEK LOW
+            # =================================================
+
+            week_high=week_high,
+
+            week_low=week_low
+
         )
+
 
     except Exception as e:
 
@@ -234,38 +414,56 @@ def predict():
         "GOOGL"
     )
 
+
     days = request.args.get(
         "days",
         "7"
     )
 
+
     if stock not in COMPANIES:
+
         stock = "GOOGL"
+
 
     try:
 
-        days = int(days)
+        days = int(
+            days
+        )
 
     except ValueError:
 
         days = 7
 
+
     if days < 1:
+
         days = 1
 
+
     if days > 365:
+
         days = 365
+
 
     file_path = os.path.join(
         "data",
         f"{stock}.csv"
     )
 
-    if not os.path.exists(file_path):
+
+    if not os.path.exists(
+        file_path
+    ):
 
         return jsonify({
-            "error": "CSV file not found"
+
+            "error":
+                "CSV file not found"
+
         })
+
 
     try:
 
@@ -273,97 +471,153 @@ def predict():
             file_path
         )
 
+
         if dataset.empty:
 
             return jsonify({
-                "error": "CSV file is empty"
+
+                "error":
+                    "CSV file is empty"
+
             })
 
+
         dataset.rename(
+
             columns={
                 dataset.columns[0]: "Date"
             },
+
             inplace=True
+
         )
+
 
         if "Close" not in dataset.columns:
 
             return jsonify({
-                "error": "Close column not found"
+
+                "error":
+                    "Close column not found"
+
             })
 
+
         dataset["Close"] = pd.to_numeric(
+
             dataset["Close"],
+
             errors="coerce"
+
         )
 
+
         dataset = dataset.dropna(
+
             subset=["Close"]
+
         )
+
 
         if len(dataset) < 2:
 
             return jsonify({
-                "error": "Not enough stock price data"
+
+                "error":
+                    "Not enough stock price data"
+
             })
 
-        
 
         # =================================================
         # LINEAR REGRESSION
         # =================================================
 
         X = np.arange(
+
             len(dataset)
+
         ).reshape(-1, 1)
+
 
         y = dataset["Close"].values
 
+
         model = LinearRegression()
 
+
         model.fit(
+
             X,
+
             y
+
         )
+
 
         # =================================================
         # FUTURE PREDICTION
         # =================================================
 
         future_X = np.arange(
+
             len(dataset),
+
             len(dataset) + days
+
         ).reshape(-1, 1)
 
+
         predictions = model.predict(
+
             future_X
+
         )
 
+
         predictions = [
+
             round(float(price), 2)
+
             for price in predictions
+
         ]
+
+
+        # =================================================
+        # RETURN PREDICTION
+        # =================================================
 
         return jsonify({
 
-            "stock": stock,
+            "stock":
+                stock,
 
-            "company": COMPANIES[stock],
+            "company":
+                COMPANIES[stock],
 
-            "algorithm": "Linear Regression",
+            "algorithm":
+                "Linear Regression",
 
-            "prediction_days": days,
+            "prediction_days":
+                days,
 
-            "predictions": predictions,
+            "predictions":
+                predictions,
 
-            "predicted_price": predictions[-1]
+            "predicted_price":
+                predictions[-1]
 
         })
+
 
     except Exception as e:
 
         return jsonify({
-            "error": str(e)
+
+            "error":
+                str(e)
+
         })
 
 
@@ -375,14 +629,22 @@ def predict():
 def live_stock():
 
     stock = request.args.get(
+
         "stock",
+
         "GOOGL"
+
     )
 
-    # Check stock
+
+    # =====================================================
+    # CHECK STOCK
+    # =====================================================
+
     if stock not in COMPANIES:
 
         stock = "GOOGL"
+
 
     try:
 
@@ -391,12 +653,19 @@ def live_stock():
         # =================================================
 
         data = yf.download(
+
             tickers=stock,
+
             period="1d",
+
             interval="1m",
+
             progress=False,
+
             auto_adjust=False
+
         )
+
 
         # =================================================
         # CHECK DATA
@@ -405,7 +674,10 @@ def live_stock():
         if data is None or data.empty:
 
             return jsonify({
-                "error": "Live market data is currently unavailable."
+
+                "error":
+                    "Live market data is currently unavailable."
+
             })
 
 
@@ -420,21 +692,36 @@ def live_stock():
         # instead of a Series.
 
         if isinstance(
+
             close_data,
+
             pd.DataFrame
+
         ):
 
-            close_data = close_data.iloc[:, 0]
+            close_data = close_data.iloc[
+
+                :,
+
+                0
+
+            ]
 
 
-        # Remove missing values
+        # =================================================
+        # REMOVE MISSING VALUES
+        # =================================================
+
         close_data = close_data.dropna()
 
 
         if close_data.empty:
 
             return jsonify({
-                "error": "No live price data available."
+
+                "error":
+                    "No live price data available."
+
             })
 
 
@@ -443,14 +730,18 @@ def live_stock():
         # =================================================
 
         latest_price = float(
+
             close_data.iloc[-1]
+
         )
 
 
         if len(close_data) >= 2:
 
             previous_price = float(
+
                 close_data.iloc[-2]
+
             )
 
         else:
@@ -463,16 +754,20 @@ def live_stock():
         # =================================================
 
         change = (
+
             latest_price -
             previous_price
+
         )
 
 
         if previous_price != 0:
 
             change_percent = (
+
                 change /
                 previous_price
+
             ) * 100
 
         else:
@@ -486,7 +781,11 @@ def live_stock():
 
         # Last 60 one-minute points
 
-        recent_data = close_data.tail(60)
+        recent_data = close_data.tail(
+
+            60
+
+        )
 
 
         live_labels = []
@@ -497,11 +796,26 @@ def live_stock():
         for timestamp, price in recent_data.items():
 
             live_labels.append(
-                timestamp.strftime("%H:%M")
+
+                timestamp.strftime(
+
+                    "%H:%M"
+
+                )
+
             )
 
+
             live_prices.append(
-                round(float(price), 2)
+
+                round(
+
+                    float(price),
+
+                    2
+
+                )
+
             )
 
 
@@ -511,33 +825,53 @@ def live_stock():
 
         return jsonify({
 
-            "stock": stock,
+            "stock":
+                stock,
 
-            "company": COMPANIES[stock],
+            "company":
+                COMPANIES[stock],
 
-            "price": round(
-                latest_price,
-                2
-            ),
+            "price":
+                round(
 
-            "previous_price": round(
-                previous_price,
-                2
-            ),
+                    latest_price,
 
-            "change": round(
-                change,
-                2
-            ),
+                    2
 
-            "change_percent": round(
-                change_percent,
-                2
-            ),
+                ),
 
-            "labels": live_labels,
+            "previous_price":
+                round(
 
-            "prices": live_prices
+                    previous_price,
+
+                    2
+
+                ),
+
+            "change":
+                round(
+
+                    change,
+
+                    2
+
+                ),
+
+            "change_percent":
+                round(
+
+                    change_percent,
+
+                    2
+
+                ),
+
+            "labels":
+                live_labels,
+
+            "prices":
+                live_prices
 
         })
 
@@ -545,12 +879,19 @@ def live_stock():
     except Exception as e:
 
         print(
+
             "Live stock error:",
+
             str(e)
+
         )
 
+
         return jsonify({
-            "error": "Unable to retrieve live stock data."
+
+            "error":
+                "Unable to retrieve live stock data."
+
         })
 
 
@@ -561,7 +902,11 @@ def live_stock():
 if __name__ == "__main__":
 
     app.run(
+
         host="0.0.0.0",
+
         port=5000,
+
         debug=True
+
     )
