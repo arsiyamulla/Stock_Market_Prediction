@@ -441,7 +441,7 @@ footer {
    LIVE STOCK GRAPH
 ===================================================== */
 
-.live-stock-card {
+/* .live-stock-card {
     margin-top: 25px;
 }
 
@@ -512,8 +512,103 @@ footer {
 
 .live-error {
     color: #dc2626;
+} */
+
+
+/* =====================================================
+   LIVE STOCK - BIG BOX
+===================================================== */
+
+.live-stock-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
 
+.live-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.live-title-row h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.live-dot {
+    width: 11px;
+    height: 11px;
+    background: #16a34a;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+    animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.25); opacity: 0.65; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.live-price-display {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.live-price-display span {
+    transition: 0.3s;
+}
+
+.live-positive {
+    color: #16a34a;
+}
+
+.live-negative {
+    color: #dc2626;
+}
+
+.live-status {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.live-connected {
+    color: #16a34a;
+}
+
+.live-error {
+    color: #dc2626;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 420px;
+}
+
+/* DARK MODE */
+body.dark .live-stock-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark .live-title-row h2 {
+    color: #f8fafc;
+}
+
+body.dark .live-stock-card p {
+    color: #cbd5e1;
+}
+
+body.dark .live-status {
+    color: #cbd5e1;
+}
 
 /* =====================================================
    ACCOUNT SUCCESS POPUP
@@ -2688,126 +2783,14 @@ footer {
             0 0 40px rgba(0, 255, 136, 0.3);
     }
 }
-/* =====================================================
-   TREND BADGE
-===================================================== */
-
-.trend-card {
-
-    margin-top: 25px;
-
-    padding: 25px;
-
-    border-radius: 16px;
-
-    background: var(--card-bg, #ffffff);
-
-    border: 1px solid
-        var(--border-color, #e5e7eb);
-
-    box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.06);
-
-}
-
-
-.trend-content {
-
-    text-align: center;
-
-}
-
-
-.trend-label {
-
-    margin-bottom: 8px;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    opacity: 0.7;
-
-}
-
-
-#trendBadge {
-
-    display: inline-block;
-
-    margin: 5px 0 10px;
-
-    padding: 10px 20px;
-
-    border-radius: 30px;
-
-    font-size: 20px;
-
-    font-weight: 700;
-
-}
-
-
-.trend-bullish {
-
-    color: #15803d;
-
-    background: #dcfce7;
-
-}
-
-
-.trend-bearish {
-
-    color: #b91c1c;
-
-    background: #fee2e2;
-
-}
-
-
-.trend-stable {
-
-    color: #a16207;
-
-    background: #fef9c3;
-
-}
-
-
-.trend-change {
-
-    margin: 0;
-
-    font-size: 14px;
-
-    opacity: 0.7;
-
-}
-
-
-.trend-change span {
-
-    margin-left: 5px;
-
-}
-.week-range-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    margin: 20px auto;
-}
 
 /* =====================================================
    WEEKLY PRICE RANGE
 ===================================================== */
 
 .weekly-range-section {
-    width: 90%;
-    max-width: 900px;
+    width: 100%;
+    max-width: 1400px;
     margin: 28px auto;
     padding: 25px 30px;
     background: rgba(255, 255, 255, 0.95);
@@ -3019,4 +3002,332 @@ footer {
     .high-value {
         order: 3;
     }
+}
+
+/* =====================================================
+   MARKET TREND BLOCK
+===================================================== */
+
+.trend-section {
+    width: 100%;
+    max-width: 1400px;
+    margin: 28px auto;
+    padding: 25px 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
+}
+
+.trend-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.trend-header > div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.trend-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef3ff;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+.trend-header h3 {
+    margin: 0;
+    font-size: 19px;
+    color: #172033;
+}
+
+.trend-header p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #7a8497;
+}
+
+.trend-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+}
+
+.trend-badge-box {
+    min-width: 150px;
+    padding: 18px 22px;
+    border-radius: 15px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: #eaf5ff;
+    border: 1px solid #cde3ff;
+}
+
+.trend-badge-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.trend-badge-box .value-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+    color: #2563eb;
+}
+
+.trend-badge-box #trendBadge {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 5px 0 10px;
+}
+
+.trend-badge-box .trend-change {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.trend-badge-box .trend-change span {
+    margin-left: 5px;
+}
+
+.trend-range-wrapper {
+    flex: 1;
+    max-width: 380px;
+    position: relative;
+    padding: 15px 0;
+}
+
+.trend-range-line {
+    height: 8px;
+    width: 100%;
+    background: #e7ebf2;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.trend-range-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #22c55e, #4ade80);
+    transition: width 0.5s ease;
+}
+
+.trend-range-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 13px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.trend-range-dots span {
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 3px solid #9aa4b2;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.trend-range-dots span:first-child {
+    border-color: #22c55e;
+}
+
+.trend-range-dots span:last-child {
+    border-color: #22c55e;
+}
+
+/* DARK MODE */
+body.dark .trend-section {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark .trend-header h3 {
+    color: #f8fafc;
+}
+
+body.dark .trend-header p {
+    color: #cbd5e1;
+}
+
+body.dark .trend-badge-box {
+    background: #1e293b;
+    border-color: #475569;
+}
+
+body.dark .trend-badge-box .value-label {
+    color: #93c5fd;
+}
+
+body.dark .trend-badge-box #trendBadge {
+    background: #0f172a;
+    color: #4ade80;
+}
+
+body.dark .trend-badge-box .trend-change {
+    color: #cbd5e1;
+}
+
+body.dark .trend-range-line {
+    background: #334155;
+}
+
+body.dark .trend-range-dots span {
+    background: #1e293b;
+    border-color: #64748b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .trend-section {
+        width: 94%;
+        padding: 20px;
+    }
+    
+    .trend-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .trend-badge-box {
+        width: 100%;
+    }
+    
+    .trend-range-wrapper {
+        width: 90%;
+        max-width: none;
+        order: 2;
+    }
+} 
+
+/* ==========================================
+   NEW PREDICTION CARD
+========================================== */
+
+.prediction-card{
+    display:grid;
+    grid-template-columns:1fr 340px;
+    align-items:center;
+    gap:40px;
+
+    background:#fff;
+    border-radius:22px;
+    padding:38px;
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
+}
+
+.prediction-form{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.prediction-form label{
+    font-weight:600;
+    color:#111827;
+}
+
+.prediction-form input{
+    height:54px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    padding:0 16px;
+    font-size:16px;
+}
+
+/* ==========================================
+   POPUP CLOSE BUTTON
+========================================== */
+
+.popup-close{
+    position:absolute;
+    top:14px;
+    right:14px;
+
+    width:34px;
+    height:34px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#f3f4f6;
+    color:#475569;
+
+    font-size:24px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.popup-close:hover{
+    background:#e5e7eb;
+    transform:rotate(90deg);
+}
+
+.popup-price{
+    font-size:34px;
+    font-weight:700;
+    color:#2563eb;
+    margin:10px 0;
+}
+/* =====================================================
+   MARKET TREND GRAPH
+===================================================== */
+
+.trend-graph-wrapper {
+    flex: 1;
+    height: 300px;
+    position: relative;
+    padding: 0 0;  /* ← REMOVE THE SPACE */
+}
+
+.trend-graph-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Update responsive for mobile */
+@media (max-width: 700px) {
+    .trend-section {
+        width: 94%;
+        padding: 20px;
+    }
+    
+    .trend-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .trend-badge-box {
+        width: 100%;
+    }
+    
+    .trend-graph-wrapper {
+        width: 100%;
+        max-width: none;
+        height: 150px;
+    }
+}
+
+/* Dark mode for graph */
+body.dark .trend-graph-wrapper {
+    background: transparent;
 }

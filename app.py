@@ -284,7 +284,7 @@ def dashboard():
             # More than +1%
             # = Bullish
 
-            if trend_change > 1:
+            if trend_change > 2:
 
                 trend = "Bullish"
 
@@ -292,7 +292,7 @@ def dashboard():
             # Less than -1%
             # = Bearish
 
-            elif trend_change < -1:
+            elif trend_change < -2:
 
                 trend = "Bearish"
 
@@ -308,8 +308,19 @@ def dashboard():
         else:
 
             trend = "Stable"
-
             trend_change = 0
+
+
+        # =================================================
+        # CALCULATE TREND WIDTH FOR THE RANGE BAR
+        # =================================================
+
+        if trend == "Bullish":
+            trend_width = 75
+        elif trend == "Bearish":
+            trend_width = 25
+        else:
+            trend_width = 50
 
 
         # =================================================
@@ -381,6 +392,8 @@ def dashboard():
                 trend_change,
                 2
             ),
+
+            trend_width=trend_width,  # <-- ADDED THIS LINE
 
 
             # =================================================

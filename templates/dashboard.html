@@ -384,7 +384,7 @@
 
             <h2>
                 ${{ previous_close }}
-            </h2>
+            </2>
 
         </div>
 
@@ -544,45 +544,49 @@
     </section>
 
 
+<!-- =================================================
+     PREDICTION
+================================================= -->
+<section class="prediction-card">
+
+    <div class="prediction-left">
+        <p class="hero-tag">Machine Learning Prediction</p>
+
+        <h2>Predict Future Stock Price</h2>
+
+        <p>
+            Enter the number of days to estimate the future stock price
+            using our Linear Regression model.
+        </p>
+    </div>
+
+    <form id="predictionForm" class="prediction-form">
+
+        <label for="days">Prediction Days</label>
+
+        <input
+            type="number"
+            id="days"
+            min="1"
+            max="365"
+            value="7"
+            required
+        >
+
+        <button type="submit" class="create-btn">
+            Predict Price
+        </button>
+
+    </form>
+
+</section>
 
 
-
-
-    <!-- =================================================
-         PREDICTION
-    ================================================= -->
-
-    <section class="prediction-card">
-
-
-        <div class="prediction-left">
-
-
-            <p class="hero-tag">
-                Machine Learning Prediction
-            </p>
-
-
-            <h2>
-                Predict Future Stock Price
-            </h2>
-
-
-            <p>
-
-                Enter the number of days to estimate
-                the future stock price.
-
-            </p>
-
-
-        </div>
-
-
+    
 
         <!-- PREDICTION FORM -->
 
-        <form id="predictionForm">
+        <!-- <form id="predictionForm">
 
 
             <label for="days">
@@ -609,98 +613,182 @@
             </button>
 
 
-        </form>
+        </form> -->
 
 
 
-        <!-- RESULT -->
+        
 
-        <div class="prediction-result">
-
-
-            <p>
-                Predicted Price
-            </p>
-
-
-            <h2 id="futurePrice">
-                -
-            </h2>
-
-
-            <p id="predictionValue">
-
-                Enter days and click
-                Predict
-
-            </p>
-
-
-        </div>
-
+        
 
     </section>
 
 
 </main>
 
+
 <!-- =================================================
-     TREND BADGE
+     MARKET TREND BLOCK (UPDATED WITH GRAPH)
 ================================================= -->
 
-<section class="trend-card">
+<section class="trend-section">
+
+    <div class="trend-header">
+        <div>
+            <span class="trend-icon">📈</span>
+            <div>
+                <h3>Market Trend</h3>
+                <p>Based on recent price movement</p>
+            </div>
+        </div>
+    </div>
 
     <div class="trend-content">
 
-        <p class="trend-label">
-            Market Trend
-        </p>
+        <!-- LEFT: Badge + percentage -->
+        <div class="trend-badge-box">
+            <span class="value-label">TREND</span>
+            <h2 id="trendBadge" class="{% if trend == 'Bullish' %}trend-bullish{% elif trend == 'Bearish' %}trend-bearish{% else %}trend-stable{% endif %}">
+                {% if trend == "Bullish" %}
+                    📈 Bullish
+                {% elif trend == "Bearish" %}
+                    📉 Bearish
+                {% else %}
+                    ➖ Stable
+                {% endif %}
+            </h2>
+            <p class="trend-change">
+                {% if trend_change >= 0 %}
+                    +{{ trend_change }}%
+                {% else %}
+                    {{ trend_change }}%
+                {% endif %}
+                <span>based on recent price movement</span>
+            </p>
+        </div>
 
-        <h2
-            id="trendBadge"
-            class="{% if trend == 'Bullish' %}
-                       trend-bullish
-                   {% elif trend == 'Bearish' %}
-                       trend-bearish
-                   {% else %}
-                       trend-stable
-                   {% endif %}"
-        >
-
-            {% if trend == "Bullish" %}
-
-                📈 Bullish
-
-            {% elif trend == "Bearish" %}
-
-                📉 Bearish
-
-            {% else %}
-
-                ➖ Stable
-
-            {% endif %}
-
-        </h2>
-
-        <p class="trend-change">
-
-            {% if trend_change >= 0 %}
-                +{{ trend_change }}%
-            {% else %}
-                {{ trend_change }}%
-            {% endif %}
-
-            <span>
-                based on recent price movement
-            </span>
-
-        </p>
+        <!-- RIGHT: Graph -->
+        <div class="trend-graph-wrapper">
+            <canvas id="trendChart"></canvas>
+        </div>
 
     </div>
 
 </section>
 
+<!-- =====================================================
+     TREND GRAPH
+===================================================== -->
+
+<script>
+// Draw the trend graph
+(function() {
+    const canvas = document.getElementById('trendChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Get the recent prices data from the template
+    const trendData = {
+        labels: ['Nov 17', 'Nov 18', 'Nov 19', 'Nov 20', 'Nov 21', 'Nov 22', 'Nov 23', 'Nov 24', 'Nov 25', 'Nov 26', 'Nov 27', 'Nov 28', 'Nov 29', 'Nov 30'],
+prices: [284.0, 283.0, 292.0, 288.0, 300.0, 322.0, 318.0, 324.0, 319.0, 320.0, 315.0, 316.0, 317.0, 317.0]
+    };
+
+    const trendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: trendData.labels,
+            datasets: [{
+                label: 'Recent Price',
+                data: trendData.prices,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.10)',
+                borderWidth: 3,
+                tension: 0.3,
+                fill: true,
+                pointRadius: 4,
+                pointBackgroundColor: '#2563eb',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return '$' + Number(context.parsed.y).toFixed(2);
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        maxRotation: 45,
+                        font: {
+                            size: 10
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: false,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value;
+                        }
+                    }
+                }
+            },
+
+        layout: {
+            padding: {
+                left: 0,
+                right: 0,
+                top: 10,
+                bottom: 10
+            }
+        }
+    }
+
+
+    });
+
+    // Handle dark mode
+    function updateTrendChartColors() {
+        const isDark = document.body.classList.contains('dark');
+        const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)';
+        const textColor = isDark ? '#94a3b8' : '#64748b';
+        
+        trendChart.options.scales.x.ticks.color = textColor;
+        trendChart.options.scales.y.ticks.color = textColor;
+        trendChart.options.scales.x.grid.color = gridColor;
+        trendChart.options.scales.y.grid.color = gridColor;
+        trendChart.update();
+    }
+
+    // Initial update
+    setTimeout(updateTrendChartColors, 100);
+
+    // Listen for theme toggle
+    document.getElementById('themeToggle')?.addEventListener('click', function() {
+        setTimeout(updateTrendChartColors, 200);
+    });
+
+})();
+</script>
 
 
 <!-- =====================================================
@@ -769,6 +857,39 @@
 
 
 
+<!-- ==========================================
+     PREDICTION POPUP
+========================================== -->
+<div class="success-overlay" id="predictionPopup" style="display:none;">
+
+    <div class="success-popup" id="predictionPopupContent">
+
+        <button class="popup-close"
+                onclick="closePredictionPopup()">
+            &times;
+        </button>
+
+        <div class="success-icon">✓</div>
+
+        <div class="success-message">
+
+            <strong>Prediction Complete</strong>
+
+            <span id="popupStock">AAPL</span>
+
+            <div class="popup-price" id="popupPrice">
+                $0.00
+            </div>
+
+            <span id="popupMessage">
+                Predicted for 7 day(s)
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
 <!-- =====================================================
      FLASK DATA
 ===================================================== -->
@@ -797,6 +918,120 @@
 
 
 <!-- =====================================================
+     SET TREND WIDTH DYNAMICALLY
+===================================================== -->
+
+<script>
+// Set trend width based on trend value
+(function() {
+    const trendFill = document.getElementById('trendFill');
+    if (trendFill) {
+        // Get the trend from the template
+        const trend = '{{ trend }}';
+        let width = 50; // Default: Stable
+        
+        if (trend === 'Bullish') {
+            width = 75;
+        } else if (trend === 'Bearish') {
+            width = 25;
+        }
+        
+        // Set the width
+        trendFill.style.width = width + '%';
+        
+        // Optional: Log to console for debugging
+        console.log('Trend:', trend, 'Width:', width + '%');
+    }
+})();
+
+// =====================================================
+// PREDICTION POPUP FUNCTIONS
+// =====================================================
+
+function showPredictionPopup(price, days){
+
+    const stock =
+        document.getElementById("stockSelect")
+        .options[
+            document.getElementById("stockSelect").selectedIndex
+        ].text;
+
+    document.getElementById("popupStock").textContent = stock;
+
+    document.getElementById("popupPrice").textContent =
+        "$" + price;
+
+    document.getElementById("popupMessage").textContent =
+        "Predicted for " + days + " day(s)";
+
+    const overlay = document.getElementById("predictionPopup");
+    const popup = document.getElementById("predictionPopupContent");
+
+    overlay.style.display = "flex";
+
+    setTimeout(()=>{
+        popup.classList.add("show");
+    },10);
+}
++
+function closePredictionPopup() {
+    const overlay = document.getElementById('predictionPopup');
+    const popup = document.getElementById('predictionPopupContent');
+    
+    // Remove the show class for animation
+    popup.classList.remove('show');
+    
+    // Hide after animation
+    setTimeout(function() {
+        overlay.style.display = 'none';
+    }, 300);
+}
+
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
+    const overlay = document.getElementById('predictionPopup');
+    const popup = document.getElementById('predictionPopupContent');
+    
+    if (event.target === overlay) {
+        closePredictionPopup();
+    }
+});
+
+// =====================================================
+// UPDATE PREDICTION FORM
+// =====================================================
+
+const predictionForm = document.getElementById('predictionForm');
+
+if (predictionForm) {
+    predictionForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const stock = document.getElementById('stockSelect').value;
+        const days = document.getElementById('days').value;
+
+        try {
+            const response = await fetch(`/predict?stock=${stock}&days=${days}`);
+            const data = await response.json();
+
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            // Show the popup with prediction results
+            showPredictionPopup(data.predicted_price, data.prediction_days);
+
+        } catch (error) {
+            console.error('Prediction error:', error);
+            alert('Unable to calculate prediction.');
+        }
+    });
+}
+</script>
+
+
+<!-- =====================================================
      CHANGE STOCK
 ===================================================== -->
 
@@ -820,121 +1055,10 @@ function changeStock() {
 
 
 <!-- =====================================================
-     LINEAR REGRESSION PREDICTION
+     LINEAR REGRESSION PREDICTION (OLD - REMOVED)
 ===================================================== -->
 
-<script>
-
-const predictionForm =
-    document.getElementById(
-        "predictionForm"
-    );
-
-
-if (predictionForm) {
-
-    predictionForm.addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-
-            const stock =
-                document.getElementById(
-                    "stockSelect"
-                ).value;
-
-
-            const days =
-                document.getElementById(
-                    "days"
-                ).value;
-
-
-            const futurePrice =
-                document.getElementById(
-                    "futurePrice"
-                );
-
-
-            const predictionValue =
-                document.getElementById(
-                    "predictionValue"
-                );
-
-
-            futurePrice.textContent =
-                "...";
-
-
-            predictionValue.textContent =
-                "Calculating prediction...";
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        `/predict?stock=${stock}&days=${days}`
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                if (data.error) {
-
-                    futurePrice.textContent =
-                        "-";
-
-
-                    predictionValue.textContent =
-                        data.error;
-
-                    return;
-
-                }
-
-
-                futurePrice.textContent =
-                    "$" +
-                    data.predicted_price;
-
-
-                predictionValue.textContent =
-                    "Linear Regression prediction for " +
-                    data.prediction_days +
-                    " day(s)";
-
-            }
-
-
-            catch (error) {
-
-                console.error(
-                    "Prediction error:",
-                    error
-                );
-
-
-                futurePrice.textContent =
-                    "-";
-
-
-                predictionValue.textContent =
-                    "Unable to calculate prediction.";
-
-            }
-
-        }
-    );
-
-}
-
-</script>
-
+<!-- Removed the old prediction code as it's now handled above -->
 
 
 <!-- =====================================================

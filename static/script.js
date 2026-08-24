@@ -851,15 +851,59 @@ if (
 
 
 // =====================================================
-// LINEAR REGRESSION PREDICTION
+// LINEAR REGRESSION PREDICTION + POPUP
 // =====================================================
 
-const predictionForm =
-    document.getElementById(
-        "predictionForm"
-    );
+const predictionForm = document.getElementById("predictionForm");
 
+// ---------- SHOW POPUP ----------
+function showPredictionPopup(price, days) {
 
+    const stockSelect = document.getElementById("stockSelect");
+
+    const stockName =
+        stockSelect.options[stockSelect.selectedIndex].text;
+
+    document.getElementById("popupStock").textContent = stockName;
+    document.getElementById("popupPrice").textContent = "$" + price;
+    document.getElementById("popupMessage").textContent =
+        "Predicted for " + days + " day(s)";
+
+    const overlay = document.getElementById("predictionPopup");
+    const popup = document.getElementById("predictionPopupContent");
+
+    overlay.style.display = "flex";
+
+    setTimeout(() => {
+        popup.classList.add("show");
+    }, 10);
+}
+
+// ---------- CLOSE POPUP ----------
+function closePredictionPopup() {
+
+    const overlay = document.getElementById("predictionPopup");
+    const popup = document.getElementById("predictionPopupContent");
+
+    popup.classList.remove("show");
+
+    setTimeout(() => {
+        overlay.style.display = "none";
+    }, 300);
+}
+
+// Click outside to close
+document.addEventListener("click", function (e) {
+
+    const overlay = document.getElementById("predictionPopup");
+
+    if (e.target === overlay) {
+        closePredictionPopup();
+    }
+
+});
+
+// ---------- PREDICT PRICE ----------
 if (predictionForm) {
 
     predictionForm.addEventListener(
@@ -868,58 +912,11 @@ if (predictionForm) {
 
             event.preventDefault();
 
-
-            const stockSelect =
-                document.getElementById(
-                    "stockSelect"
-                );
-
-
-            const daysInput =
-                document.getElementById(
-                    "days"
-                );
-
-
-            const futurePrice =
-                document.getElementById(
-                    "futurePrice"
-                );
-
-
-            const predictionValue =
-                document.getElementById(
-                    "predictionValue"
-                );
-
-
-            if (
-                !stockSelect ||
-                !daysInput ||
-                !futurePrice ||
-                !predictionValue
-            ) {
-
-                return;
-
-            }
-
-
             const stock =
-                stockSelect.value;
-
+                document.getElementById("stockSelect").value;
 
             const days =
-                daysInput.value;
-
-
-            futurePrice.textContent =
-                "...";
-
-
-            predictionValue.textContent =
-                "Calculating prediction...";
-
+                document.getElementById("days").value;
 
             try {
 
@@ -928,79 +925,26 @@ if (predictionForm) {
                         `/predict?stock=${encodeURIComponent(stock)}&days=${encodeURIComponent(days)}`
                     );
 
-
-                const data =
-                    await response.json();
-
+                const data = await response.json();
 
                 if (data.error) {
-
-                    futurePrice.textContent =
-                        "-";
-
-
-                    predictionValue.textContent =
-                        data.error;
-
-
+                    alert(data.error);
                     return;
-
                 }
 
-
-                // futurePrice.textContent =
-                //     "$" +
-                //     data.predicted_price;
-
-                futurePrice.textContent =
-    "$" +
-    data.predicted_price;
-
-
-// Prediction result animation
-const predictionResult =
-    document.querySelector(
-        ".prediction-result"
-    );
-
-if (predictionResult) {
-
-    predictionResult.classList.remove(
-        "result-show"
-    );
-
-    void predictionResult.offsetWidth;
-
-    predictionResult.classList.add(
-        "result-show"
-    );
-}
-
-
-
-
-
-                predictionValue.textContent =
-                    "Linear Regression prediction for " +
-                    data.prediction_days +
-                    " day(s)";
+                // Show popup
+                showPredictionPopup(
+                    data.predicted_price,
+                    data.prediction_days
+                );
 
             }
 
             catch (error) {
 
-                console.error(
-                    "Prediction error:",
-                    error
-                );
+                console.error("Prediction error:", error);
 
-
-                futurePrice.textContent =
-                    "-";
-
-
-                predictionValue.textContent =
-                    "Unable to calculate prediction.";
+                alert("Unable to calculate prediction.");
 
             }
 
