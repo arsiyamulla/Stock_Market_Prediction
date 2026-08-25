@@ -12,12 +12,26 @@
         StockPredict Dashboard
     </title>
 
-    <!-- CSS -->
+    <!-- =====================================================
+         CSS
+    ====================================================== -->
+
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}">
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 
-    <!-- CHART.JS -->
+    <!-- FAVICON -->
+    <link
+        rel="icon"
+        type="image/jpeg"
+        href="{{ url_for('static', filename='logo.jpeg') }}"
+    >
+
+    <!-- =====================================================
+         CHART.JS
+    ====================================================== -->
+
     <script
         src="https://cdn.jsdelivr.net/npm/chart.js">
     </script>
@@ -35,7 +49,12 @@
 <nav class="navbar">
 
     <div class="logo">
-        📈 StockPredict
+
+        <img
+            src="{{ url_for('static', filename='fevicon.jpeg') }}"
+            alt="StockSight Logo"
+        >
+
     </div>
 
 
@@ -69,7 +88,9 @@
     <div class="ticker-track">
 
 
-        <!-- FIRST SET -->
+        <!-- =================================================
+             FIRST SET
+        ================================================== -->
 
         <div class="ticker-set">
 
@@ -183,7 +204,7 @@
         <!-- =================================================
              SECOND IDENTICAL SET
              Required for continuous scrolling
-        ================================================= -->
+        ================================================== -->
 
         <div class="ticker-set">
 
@@ -306,54 +327,140 @@
 
 
     <!-- =================================================
-         HEADER
-    ================================================= -->
+         DASHBOARD HEADER
+    ================================================== -->
 
     <div class="dashboard-header">
 
-    <div class="header-content">
 
-        <p class="hero-tag badge-animation">
-            AI Powered Market Intelligence
-        </p>
+        <!-- HEADER CONTENT -->
 
-        <h1 class="title-animation">
-            Stock Prediction Dashboard
-        </h1>
+        <div class="header-content">
 
-        <p class="dashboard-subtitle subtitle-animation">
-            Analyze stock prices and predict
-            future market trends.
-        </p>
+            <p class="hero-tag badge-animation">
+                AI Powered Market Intelligence
+            </p>
+
+
+            <h1 class="title-animation">
+                Stock Prediction Dashboard
+            </h1>
+
+
+            <p class="dashboard-subtitle subtitle-animation">
+
+                Analyze stock prices and predict
+                future market trends.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STOCK SELECTOR
+        ================================================== -->
+
+        <div class="stock-selector selector-animation">
+
+            <label>
+                Select Stock
+            </label>
+
+
+            <div
+                class="custom-select"
+                id="customStockSelect"
+                data-stock="{{ selected_stock }}"
+            >
+
+
+                <!-- SELECTED STOCK -->
+
+                <div
+                    class="selected-stock"
+                    onclick="toggleStockDropdown()"
+                >
+
+                    <div>
+
+                        <span
+                            class="selected-company"
+                            id="selectedCompany"
+                        >
+                            {{ companies[selected_stock] }}
+                        </span>
+
+
+                        <span
+                            class="selected-symbol"
+                            id="selectedSymbol"
+                        >
+                            ({{ selected_stock }})
+                        </span>
+
+                    </div>
+
+
+                    <span class="dropdown-arrow">
+                        ⌄
+                    </span>
+
+                </div>
+
+
+
+                <!-- STOCK OPTIONS -->
+
+                <div
+                    class="stock-options"
+                    id="stockOptions"
+                >
+
+                    {% for symbol, company in companies.items() %}
+
+                    <div
+                        class="stock-option"
+                        onclick="selectStock('{{ symbol }}', '{{ company }}')"
+                    >
+
+                        <div class="stock-icon">
+
+                            {{ symbol[0] }}
+
+                        </div>
+
+
+                        <div class="stock-info">
+
+                            <strong>
+                                {{ company }}
+                            </strong>
+
+                            <span>
+                                {{ symbol }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <!-- STOCK SELECTOR -->
-    <div class="stock-selector selector-animation">
-
-        <label for="stockSelect">
-            Select Stock
-        </label>
-
-        <select id="stockSelect" onchange="changeStock()">
-
-            {% for symbol, company in companies.items() %}
-            <option value="{{ symbol }}"
-                {% if symbol == selected_stock %}selected{% endif %}>
-                {{ company }} ({{ symbol }})
-            </option>
-            {% endfor %}
-
-        </select>
-
-    </div>
-
-</div>
 
 
     <!-- =================================================
          STOCK CARDS
-    ================================================= -->
+    ================================================== -->
 
     <section class="stock-cards">
 
@@ -384,13 +491,13 @@
 
             <h2>
                 ${{ previous_close }}
-            </2>
+            </h2>
 
         </div>
 
 
 
-        <!-- CHANGE -->
+        <!-- TODAY'S CHANGE -->
 
         <div class="stock-card">
 
@@ -398,8 +505,10 @@
                 Today's Change
             </p>
 
+
             <h2
-                class="{% if change_percent >= 0 %}positive{% else %}negative{% endif %}">
+                class="{% if change_percent >= 0 %}positive{% else %}negative{% endif %}"
+            >
 
                 {{ change_percent }}%
 
@@ -423,15 +532,13 @@
 
         </div>
 
-
     </section>
 
 
 
-    
     <!-- =================================================
          LIVE STOCK GRAPH
-    ================================================= -->
+    ================================================== -->
 
     <section class="chart-card live-stock-card">
 
@@ -445,6 +552,7 @@
 
                     <span class="live-dot">
                     </span>
+
 
                     <h2>
                         Live Stock Price
@@ -476,7 +584,6 @@
 
             </div>
 
-
         </div>
 
 
@@ -485,7 +592,8 @@
 
         <div
             id="liveStatus"
-            class="live-status">
+            class="live-status"
+        >
 
             Connecting to market data...
 
@@ -502,12 +610,13 @@
 
         </div>
 
-
     </section>
+
+
 
     <!-- =================================================
          HISTORICAL GRAPH
-    ================================================= -->
+    ================================================== -->
 
     <section class="chart-card">
 
@@ -533,6 +642,7 @@
         </div>
 
 
+
         <div class="chart-container">
 
             <canvas id="stockChart">
@@ -540,54 +650,45 @@
 
         </div>
 
-
     </section>
 
 
-<!-- =================================================
-     PREDICTION
-================================================= -->
-<section class="prediction-card">
 
-    <div class="prediction-left">
-        <p class="hero-tag">Machine Learning Prediction</p>
+    <!-- =================================================
+         PREDICTION
+    ================================================== -->
 
-        <h2>Predict Future Stock Price</h2>
+    <section class="prediction-card">
 
-        <p>
-            Enter the number of days to estimate the future stock price
-            using our Linear Regression model.
-        </p>
-    </div>
 
-    <form id="predictionForm" class="prediction-form">
+        <div class="prediction-left">
 
-        <label for="days">Prediction Days</label>
+            <p class="hero-tag">
+                Machine Learning Prediction
+            </p>
 
-        <input
-            type="number"
-            id="days"
-            min="1"
-            max="365"
-            value="7"
-            required
+
+            <h2>
+                Predict Future Stock Price
+            </h2>
+
+
+            <p>
+
+                Enter the number of days to estimate
+                the future stock price using our
+                Linear Regression model.
+
+            </p>
+
+        </div>
+
+
+
+        <form
+            id="predictionForm"
+            class="prediction-form"
         >
-
-        <button type="submit" class="create-btn">
-            Predict Price
-        </button>
-
-    </form>
-
-</section>
-
-
-    
-
-        <!-- PREDICTION FORM -->
-
-        <!-- <form id="predictionForm">
-
 
             <label for="days">
                 Prediction Days
@@ -606,20 +707,14 @@
 
             <button
                 type="submit"
-                class="create-btn">
+                class="create-btn"
+            >
 
                 Predict Price
 
             </button>
 
-
-        </form> -->
-
-
-
-        
-
-        
+        </form>
 
     </section>
 
@@ -627,168 +722,473 @@
 </main>
 
 
-<!-- =================================================
-     MARKET TREND BLOCK (UPDATED WITH GRAPH)
-================================================= -->
+
+<!-- =====================================================
+     MARKET TREND BLOCK
+===================================================== -->
 
 <section class="trend-section">
 
+
     <div class="trend-header">
+
         <div>
-            <span class="trend-icon">📈</span>
+
+            <span class="trend-icon">
+                📈
+            </span>
+
+
             <div>
-                <h3>Market Trend</h3>
-                <p>Based on recent price movement</p>
+
+                <h3>
+                    Market Trend
+                </h3>
+
+
+                <p>
+                    Based on recent price movement
+                </p>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <div class="trend-content">
 
-        <!-- LEFT: Badge + percentage -->
+
+        <!-- =================================================
+             LEFT: TREND BADGE
+        ================================================== -->
+
         <div class="trend-badge-box">
-            <span class="value-label">TREND</span>
-            <h2 id="trendBadge" class="{% if trend == 'Bullish' %}trend-bullish{% elif trend == 'Bearish' %}trend-bearish{% else %}trend-stable{% endif %}">
+
+            <span class="value-label">
+                TREND
+            </span>
+
+
+            <h2
+                id="trendBadge"
+                class="{% if trend == 'Bullish' %}
+                           trend-bullish
+                       {% elif trend == 'Bearish' %}
+                           trend-bearish
+                       {% else %}
+                           trend-stable
+                       {% endif %}"
+            >
+
                 {% if trend == "Bullish" %}
+
                     📈 Bullish
+
                 {% elif trend == "Bearish" %}
+
                     📉 Bearish
+
                 {% else %}
+
                     ➖ Stable
+
                 {% endif %}
+
             </h2>
+
+
             <p class="trend-change">
+
                 {% if trend_change >= 0 %}
+
                     +{{ trend_change }}%
+
                 {% else %}
+
                     {{ trend_change }}%
+
                 {% endif %}
-                <span>based on recent price movement</span>
+
+
+                <span>
+                    based on recent price movement
+                </span>
+
             </p>
+
         </div>
 
-        <!-- RIGHT: Graph -->
+
+
+        <!-- =================================================
+             RIGHT: TREND GRAPH
+        ================================================== -->
+
         <div class="trend-graph-wrapper">
-            <canvas id="trendChart"></canvas>
+
+            <canvas id="trendChart">
+            </canvas>
+
         </div>
 
     </div>
 
 </section>
 
+
+
 <!-- =====================================================
-     TREND GRAPH
+     TREND GRAPH JAVASCRIPT
 ===================================================== -->
 
 <script>
-// Draw the trend graph
-(function() {
-    const canvas = document.getElementById('trendChart');
-    if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+(function () {
 
-    // Get the recent prices data from the template
+
+    const canvas =
+        document.getElementById("trendChart");
+
+
+    if (!canvas) {
+        return;
+    }
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    /*
+     * Trend data
+     *
+     * You can later replace these hardcoded values
+     * with Flask data.
+     */
+
     const trendData = {
-        labels: ['Nov 17', 'Nov 18', 'Nov 19', 'Nov 20', 'Nov 21', 'Nov 22', 'Nov 23', 'Nov 24', 'Nov 25', 'Nov 26', 'Nov 27', 'Nov 28', 'Nov 29', 'Nov 30'],
-prices: [284.0, 283.0, 292.0, 288.0, 300.0, 322.0, 318.0, 324.0, 319.0, 320.0, 315.0, 316.0, 317.0, 317.0]
+
+        labels: [
+            "Nov 17",
+            "Nov 18",
+            "Nov 19",
+            "Nov 20",
+            "Nov 21",
+            "Nov 22",
+            "Nov 23",
+            "Nov 24",
+            "Nov 25",
+            "Nov 26",
+            "Nov 27",
+            "Nov 28",
+            "Nov 29",
+            "Nov 30"
+        ],
+
+        prices: [
+            284.0,
+            283.0,
+            292.0,
+            288.0,
+            300.0,
+            322.0,
+            318.0,
+            324.0,
+            319.0,
+            320.0,
+            315.0,
+            316.0,
+            317.0,
+            317.0
+        ]
+
     };
 
-    const trendChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: trendData.labels,
-            datasets: [{
-                label: 'Recent Price',
-                data: trendData.prices,
-                borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.10)',
-                borderWidth: 3,
-                tension: 0.3,
-                fill: true,
-                pointRadius: 4,
-                pointBackgroundColor: '#2563eb',
-                pointBorderColor: '#ffffff',
-                pointBorderWidth: 2,
-                pointHoverRadius: 7
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return '$' + Number(context.parsed.y).toFixed(2);
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        maxRotation: 45,
-                        font: {
-                            size: 10
-                        }
-                    }
-                },
-                y: {
-                    beginAtZero: false,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    },
-                    ticks: {
-                        callback: function(value) {
-                            return '$' + value;
-                        }
-                    }
-                }
-            },
 
-        layout: {
-            padding: {
-                left: 0,
-                right: 0,
-                top: 10,
-                bottom: 10
+
+    const trendChart =
+        new Chart(
+            ctx,
+            {
+
+                type: "line",
+
+
+                data: {
+
+                    labels:
+                        trendData.labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Recent Price",
+
+
+                            data:
+                                trendData.prices,
+
+
+                            borderColor:
+                                "#2563eb",
+
+
+                            backgroundColor:
+                                "rgba(37, 99, 235, 0.10)",
+
+
+                            borderWidth:
+                                3,
+
+
+                            tension:
+                                0.3,
+
+
+                            fill:
+                                true,
+
+
+                            pointRadius:
+                                4,
+
+
+                            pointBackgroundColor:
+                                "#2563eb",
+
+
+                            pointBorderColor:
+                                "#ffffff",
+
+
+                            pointBorderWidth:
+                                2,
+
+
+                            pointHoverRadius:
+                                7
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display:
+                                false
+
+                        },
+
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label:
+                                    function (context) {
+
+                                        return (
+                                            "$" +
+                                            Number(
+                                                context.parsed.y
+                                            ).toFixed(2)
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        x: {
+
+                            grid: {
+
+                                display:
+                                    false
+
+                            },
+
+
+                            ticks: {
+
+                                maxRotation:
+                                    45,
+
+
+                                font: {
+
+                                    size:
+                                        10
+
+                                }
+
+                            }
+
+                        },
+
+
+                        y: {
+
+                            beginAtZero:
+                                false,
+
+
+                            grid: {
+
+                                color:
+                                    "rgba(0, 0, 0, 0.05)"
+
+                            },
+
+
+                            ticks: {
+
+                                callback:
+                                    function (value) {
+
+                                        return "$" + value;
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    layout: {
+
+                        padding: {
+
+                            left:
+                                0,
+
+                            right:
+                                0,
+
+                            top:
+                                10,
+
+                            bottom:
+                                10
+
+                        }
+
+                    }
+
+                }
+
             }
-        }
-    }
+
+        );
 
 
-    });
 
-    // Handle dark mode
+    // =====================================================
+    // DARK MODE COLORS
+    // =====================================================
+
     function updateTrendChartColors() {
-        const isDark = document.body.classList.contains('dark');
-        const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)';
-        const textColor = isDark ? '#94a3b8' : '#64748b';
-        
-        trendChart.options.scales.x.ticks.color = textColor;
-        trendChart.options.scales.y.ticks.color = textColor;
-        trendChart.options.scales.x.grid.color = gridColor;
-        trendChart.options.scales.y.grid.color = gridColor;
+
+
+        const isDark =
+            document.body.classList.contains("dark");
+
+
+        const gridColor =
+            isDark
+                ? "rgba(255, 255, 255, 0.08)"
+                : "rgba(0, 0, 0, 0.05)";
+
+
+        const textColor =
+            isDark
+                ? "#94a3b8"
+                : "#64748b";
+
+
+        trendChart.options.scales.x.ticks.color =
+            textColor;
+
+
+        trendChart.options.scales.y.ticks.color =
+            textColor;
+
+
+        trendChart.options.scales.x.grid.color =
+            gridColor;
+
+
+        trendChart.options.scales.y.grid.color =
+            gridColor;
+
+
         trendChart.update();
+
     }
 
-    // Initial update
-    setTimeout(updateTrendChartColors, 100);
 
-    // Listen for theme toggle
-    document.getElementById('themeToggle')?.addEventListener('click', function() {
-        setTimeout(updateTrendChartColors, 200);
-    });
+
+    setTimeout(
+        updateTrendChartColors,
+        100
+    );
+
+
+
+    const themeToggle =
+        document.getElementById("themeToggle");
+
+
+    if (themeToggle) {
+
+        themeToggle.addEventListener(
+            "click",
+            function () {
+
+                setTimeout(
+                    updateTrendChartColors,
+                    200
+                );
+
+            }
+        );
+
+    }
+
 
 })();
+
 </script>
+
 
 
 <!-- =====================================================
@@ -797,48 +1197,104 @@ prices: [284.0, 283.0, 292.0, 288.0, 300.0, 322.0, 318.0, 324.0, 319.0, 320.0, 3
 
 <div class="weekly-range-section">
 
+
     <div class="weekly-range-header">
+
         <div>
-            <span class="weekly-range-icon">📊</span>
+
+            <span class="weekly-range-icon">
+                📊
+            </span>
+
+
             <div>
-                <h3>Weekly Price Range</h3>
-                <p>Last 5 trading days</p>
+
+                <h3>
+                    Weekly Price Range
+                </h3>
+
+
+                <p>
+                    Last 5 trading days
+                </p>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <div class="weekly-range-content">
 
+
         <!-- WEEK LOW -->
+
         <div class="weekly-value low-value">
-            <span class="value-label">WEEK LOW</span>
-            <strong>${{ week_low }}</strong>
+
+            <span class="value-label">
+                WEEK LOW
+            </span>
+
+
+            <strong>
+                ${{ week_low }}
+            </strong>
+
         </div>
 
+
+
         <!-- RANGE BAR -->
+
         <div class="range-wrapper">
 
             <div class="range-line">
-                <div class="range-fill"></div>
+
+                <div class="range-fill">
+                </div>
+
             </div>
 
+
             <div class="range-dots">
-                <span></span>
-                <span></span>
-                <span></span>
+
+                <span>
+                </span>
+
+                <span>
+                </span>
+
+                <span>
+                </span>
+
             </div>
 
         </div>
 
+
+
         <!-- WEEK HIGH -->
+
         <div class="weekly-value high-value">
-            <span class="value-label">WEEK HIGH</span>
-            <strong>${{ week_high }}</strong>
+
+            <span class="value-label">
+                WEEK HIGH
+            </span>
+
+
+            <strong>
+                ${{ week_high }}
+            </strong>
+
         </div>
 
     </div>
 
 </div>
+
+
 
 <!-- =====================================================
      FOOTER
@@ -857,52 +1313,18 @@ prices: [284.0, 283.0, 292.0, 288.0, 300.0, 322.0, 318.0, 324.0, 319.0, 320.0, 3
 
 
 
-<!-- ==========================================
-     PREDICTION POPUP
-========================================== -->
-<div class="success-overlay" id="predictionPopup" style="display:none;">
-
-    <div class="success-popup" id="predictionPopupContent">
-
-        <button class="popup-close"
-                onclick="closePredictionPopup()">
-            &times;
-        </button>
-
-        <div class="success-icon">✓</div>
-
-        <div class="success-message">
-
-            <strong>Prediction Complete</strong>
-
-            <span id="popupStock">AAPL</span>
-
-            <div class="popup-price" id="popupPrice">
-                $0.00
-            </div>
-
-            <span id="popupMessage">
-                Predicted for 7 day(s)
-            </span>
-
-        </div>
-
-    </div>
-
-</div>
 <!-- =====================================================
      FLASK DATA
 ===================================================== -->
 
 <script
     id="stock-data"
-    type="application/json">
-
+    type="application/json"
+>
 {
     "labels": {{ labels | tojson }},
     "prices": {{ prices | tojson }}
 }
-
 </script>
 
 
@@ -915,150 +1337,6 @@ prices: [284.0, 283.0, 292.0, 288.0, 300.0, 322.0, 318.0, 324.0, 319.0, 320.0, 3
     src="{{ url_for('static', filename='script.js') }}">
 </script>
 
-
-
-<!-- =====================================================
-     SET TREND WIDTH DYNAMICALLY
-===================================================== -->
-
-<script>
-// Set trend width based on trend value
-(function() {
-    const trendFill = document.getElementById('trendFill');
-    if (trendFill) {
-        // Get the trend from the template
-        const trend = '{{ trend }}';
-        let width = 50; // Default: Stable
-        
-        if (trend === 'Bullish') {
-            width = 75;
-        } else if (trend === 'Bearish') {
-            width = 25;
-        }
-        
-        // Set the width
-        trendFill.style.width = width + '%';
-        
-        // Optional: Log to console for debugging
-        console.log('Trend:', trend, 'Width:', width + '%');
-    }
-})();
-
-// =====================================================
-// PREDICTION POPUP FUNCTIONS
-// =====================================================
-
-function showPredictionPopup(price, days){
-
-    const stock =
-        document.getElementById("stockSelect")
-        .options[
-            document.getElementById("stockSelect").selectedIndex
-        ].text;
-
-    document.getElementById("popupStock").textContent = stock;
-
-    document.getElementById("popupPrice").textContent =
-        "$" + price;
-
-    document.getElementById("popupMessage").textContent =
-        "Predicted for " + days + " day(s)";
-
-    const overlay = document.getElementById("predictionPopup");
-    const popup = document.getElementById("predictionPopupContent");
-
-    overlay.style.display = "flex";
-
-    setTimeout(()=>{
-        popup.classList.add("show");
-    },10);
-}
-+
-function closePredictionPopup() {
-    const overlay = document.getElementById('predictionPopup');
-    const popup = document.getElementById('predictionPopupContent');
-    
-    // Remove the show class for animation
-    popup.classList.remove('show');
-    
-    // Hide after animation
-    setTimeout(function() {
-        overlay.style.display = 'none';
-    }, 300);
-}
-
-// Close popup when clicking outside
-document.addEventListener('click', function(event) {
-    const overlay = document.getElementById('predictionPopup');
-    const popup = document.getElementById('predictionPopupContent');
-    
-    if (event.target === overlay) {
-        closePredictionPopup();
-    }
-});
-
-// =====================================================
-// UPDATE PREDICTION FORM
-// =====================================================
-
-const predictionForm = document.getElementById('predictionForm');
-
-if (predictionForm) {
-    predictionForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        const stock = document.getElementById('stockSelect').value;
-        const days = document.getElementById('days').value;
-
-        try {
-            const response = await fetch(`/predict?stock=${stock}&days=${days}`);
-            const data = await response.json();
-
-            if (data.error) {
-                alert(data.error);
-                return;
-            }
-
-            // Show the popup with prediction results
-            showPredictionPopup(data.predicted_price, data.prediction_days);
-
-        } catch (error) {
-            console.error('Prediction error:', error);
-            alert('Unable to calculate prediction.');
-        }
-    });
-}
-</script>
-
-
-<!-- =====================================================
-     CHANGE STOCK
-===================================================== -->
-
-<script>
-
-function changeStock() {
-
-    const stock =
-        document.getElementById(
-            "stockSelect"
-        ).value;
-
-
-    window.location.href =
-        "/dashboard?stock=" + stock;
-
-}
-
-</script>
-
-
-
-<!-- =====================================================
-     LINEAR REGRESSION PREDICTION (OLD - REMOVED)
-===================================================== -->
-
-<!-- Removed the old prediction code as it's now handled above -->
 
 
 <!-- =====================================================
@@ -1077,10 +1355,20 @@ let liveStockChart = null;
 
 async function loadLiveStock() {
 
-    const stock =
+
+    const customSelect =
         document.getElementById(
-            "stockSelect"
-        ).value;
+            "customStockSelect"
+        );
+
+
+    if (!customSelect) {
+        return;
+    }
+
+
+    const stock =
+        customSelect.dataset.stock;
 
 
     const livePrice =
@@ -1097,9 +1385,10 @@ async function loadLiveStock() {
 
     try {
 
+
         const response =
             await fetch(
-                `/live-stock?stock=${stock}`
+                `/live-stock?stock=${encodeURIComponent(stock)}`
             );
 
 
@@ -1107,18 +1396,32 @@ async function loadLiveStock() {
             await response.json();
 
 
+
+        // =================================================
+        // API ERROR
+        // =================================================
+
         if (data.error) {
 
-            livePrice.textContent =
-                "--";
+
+            if (livePrice) {
+
+                livePrice.textContent =
+                    "--";
+
+            }
 
 
-            liveStatus.textContent =
-                data.error;
+            if (liveStatus) {
+
+                liveStatus.textContent =
+                    data.error;
 
 
-            liveStatus.className =
-                "live-status live-error";
+                liveStatus.className =
+                    "live-status live-error";
+
+            }
 
 
             return;
@@ -1127,52 +1430,62 @@ async function loadLiveStock() {
 
 
 
+        // =================================================
         // CURRENT PRICE
+        // =================================================
 
-        livePrice.textContent =
-            "$" +
-            Number(data.price).toFixed(2);
+        if (livePrice) {
 
-
-
-        // PRICE COLOR
-
-        livePrice.classList.remove(
-            "live-positive",
-            "live-negative"
-        );
+            livePrice.textContent =
+                "$" +
+                Number(data.price).toFixed(2);
 
 
-        if (data.change >= 0) {
-
-            livePrice.classList.add(
-                "live-positive"
-            );
-
-        }
-
-        else {
-
-            livePrice.classList.add(
+            livePrice.classList.remove(
+                "live-positive",
                 "live-negative"
             );
 
+
+            if (Number(data.change) >= 0) {
+
+                livePrice.classList.add(
+                    "live-positive"
+                );
+
+            }
+            else {
+
+                livePrice.classList.add(
+                    "live-negative"
+                );
+
+            }
+
         }
 
 
 
+        // =================================================
         // STATUS
+        // =================================================
 
-        liveStatus.textContent =
-            "● Market data updated";
+        if (liveStatus) {
 
-
-        liveStatus.className =
-            "live-status live-connected";
-
+            liveStatus.textContent =
+                "● Market data updated";
 
 
+            liveStatus.className =
+                "live-status live-connected";
+
+        }
+
+
+
+        // =================================================
         // DRAW GRAPH
+        // =================================================
 
         drawLiveChart(
             data.labels,
@@ -1184,22 +1497,31 @@ async function loadLiveStock() {
 
     catch (error) {
 
+
         console.error(
             "Live stock error:",
             error
         );
 
 
-        livePrice.textContent =
-            "--";
+        if (livePrice) {
+
+            livePrice.textContent =
+                "--";
+
+        }
 
 
-        liveStatus.textContent =
-            "Unable to connect to market data";
+        if (liveStatus) {
+
+            liveStatus.textContent =
+                "Unable to connect to market data";
 
 
-        liveStatus.className =
-            "live-status live-error";
+            liveStatus.className =
+                "live-status live-error";
+
+        }
 
     }
 
@@ -1209,7 +1531,6 @@ async function loadLiveStock() {
 
 // =====================================================
 // DRAW LIVE GRAPH
-// ONE CONTINUOUS LINE
 // GREEN / RED SEGMENTS
 // =====================================================
 
@@ -1217,6 +1538,7 @@ function drawLiveChart(
     labels,
     prices
 ) {
+
 
     const canvas =
         document.getElementById(
@@ -1233,6 +1555,8 @@ function drawLiveChart(
         canvas.getContext("2d");
 
 
+    // Destroy previous chart
+
     if (liveStockChart) {
 
         liveStockChart.destroy();
@@ -1240,17 +1564,24 @@ function drawLiveChart(
     }
 
 
+
+    // =================================================
+    // CREATE CHART
+    // =================================================
+
     liveStockChart =
         new Chart(
             ctx,
             {
 
-                type: "line",
+                type:
+                    "line",
 
 
                 data: {
 
-                    labels: labels,
+                    labels:
+                        labels,
 
 
                     datasets: [
@@ -1304,7 +1635,8 @@ function drawLiveChart(
                             segment: {
 
                                 borderColor:
-                                    function(context) {
+                                    function (context) {
+
 
                                         const index =
                                             context.p1DataIndex;
@@ -1371,6 +1703,7 @@ function drawLiveChart(
                             display:
                                 true,
 
+
                             position:
                                 "top"
 
@@ -1382,7 +1715,7 @@ function drawLiveChart(
                             callbacks: {
 
                                 label:
-                                    function(context) {
+                                    function (context) {
 
                                         return (
                                             "$" +
@@ -1439,6 +1772,601 @@ setInterval(
 );
 
 </script>
+
+
+
+<!-- =====================================================
+     PREDICTION POPUP
+===================================================== -->
+
+<div
+    class="success-overlay"
+    id="predictionPopup"
+>
+
+
+    <div
+        class="success-popup"
+        id="predictionPopupContent"
+    >
+
+
+        <!-- CLOSE BUTTON -->
+
+        <button
+            type="button"
+            class="popup-close"
+            id="popupCloseBtn"
+        >
+
+            &times;
+
+        </button>
+
+
+
+        <!-- SUCCESS ICON -->
+
+        <div class="success-icon">
+
+            ✓
+
+        </div>
+
+
+
+        <!-- MESSAGE -->
+
+        <div class="success-message">
+
+
+            <strong>
+                Prediction Complete
+            </strong>
+
+
+            <span id="popupStock">
+                Google (GOOGL)
+            </span>
+
+
+            <div
+                class="popup-price"
+                id="popupPrice"
+            >
+                $0.00
+            </div>
+
+
+            <span id="popupMessage">
+                Predicted for 7 day(s)
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PREDICTION JAVASCRIPT
+     ONLY ONE PREDICTION HANDLER
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        console.log(
+            "Prediction system loaded"
+        );
+
+
+
+        // =================================================
+        // ELEMENTS
+        // =================================================
+
+        const predictionForm =
+            document.getElementById(
+                "predictionForm"
+            );
+
+
+        const predictionPopup =
+            document.getElementById(
+                "predictionPopup"
+            );
+
+
+        const predictionPopupContent =
+            document.getElementById(
+                "predictionPopupContent"
+            );
+
+
+        const popupCloseBtn =
+            document.getElementById(
+                "popupCloseBtn"
+            );
+
+
+        const popupStock =
+            document.getElementById(
+                "popupStock"
+            );
+
+
+        const popupPrice =
+            document.getElementById(
+                "popupPrice"
+            );
+
+
+        const popupMessage =
+            document.getElementById(
+                "popupMessage"
+            );
+
+
+
+        // =================================================
+        // SHOW PREDICTION POPUP
+        // =================================================
+
+        function showPredictionPopup(
+            price,
+            days,
+            stock,
+            company
+        ) {
+
+
+            console.log(
+                "Showing prediction popup:",
+                price,
+                days,
+                stock,
+                company
+            );
+
+
+
+            // STOCK
+
+            if (popupStock) {
+
+                popupStock.textContent =
+                    company +
+                    " (" +
+                    stock +
+                    ")";
+
+            }
+
+
+
+            // PRICE
+
+            if (popupPrice) {
+
+                popupPrice.textContent =
+                    "$" +
+                    Number(price).toFixed(2);
+
+            }
+
+
+
+            // MESSAGE
+
+            if (popupMessage) {
+
+                popupMessage.textContent =
+                    "Predicted for " +
+                    days +
+                    " day(s)";
+
+            }
+
+
+
+            // SHOW OVERLAY
+
+            if (predictionPopup) {
+
+                predictionPopup.style.display =
+                    "flex";
+
+            }
+
+
+
+            // ANIMATION
+
+            setTimeout(
+                function () {
+
+                    if (predictionPopupContent) {
+
+                        predictionPopupContent.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                },
+                20
+            );
+
+        }
+
+
+
+        // =================================================
+        // CLOSE POPUP
+        // =================================================
+
+        function closePredictionPopup() {
+
+
+            if (!predictionPopupContent) {
+                return;
+            }
+
+
+            predictionPopupContent.classList.remove(
+                "show"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    if (predictionPopup) {
+
+                        predictionPopup.style.display =
+                            "none";
+
+                    }
+
+                },
+                250
+            );
+
+        }
+
+
+
+        // =================================================
+        // CLOSE BUTTON
+        // =================================================
+
+        if (popupCloseBtn) {
+
+            popupCloseBtn.addEventListener(
+                "click",
+                closePredictionPopup
+            );
+
+        }
+
+
+
+        // =================================================
+        // CLICK OUTSIDE POPUP
+        // =================================================
+
+        if (predictionPopup) {
+
+            predictionPopup.addEventListener(
+                "click",
+                function (event) {
+
+
+                    if (
+                        event.target ===
+                        predictionPopup
+                    ) {
+
+                        closePredictionPopup();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        // =================================================
+        // ESC KEY
+        // =================================================
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    closePredictionPopup();
+
+                }
+
+            }
+        );
+
+
+
+        // =================================================
+        // PREDICTION FORM
+        // =================================================
+
+        if (predictionForm) {
+
+
+            predictionForm.addEventListener(
+                "submit",
+                async function (event) {
+
+
+                    event.preventDefault();
+
+
+                    console.log(
+                        "Prediction button clicked"
+                    );
+
+
+
+                    // =====================================
+                    // STOCK SELECTOR
+                    // =====================================
+
+                    const customSelect =
+                        document.getElementById(
+                            "customStockSelect"
+                        );
+
+
+                    if (!customSelect) {
+
+                        alert(
+                            "Stock selector not found."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    const stock =
+                        customSelect.dataset.stock ||
+                        "GOOGL";
+
+
+
+                    // =====================================
+                    // COMPANY
+                    // =====================================
+
+                    const selectedCompany =
+                        document.getElementById(
+                            "selectedCompany"
+                        );
+
+
+                    const company =
+                        selectedCompany
+                            ? selectedCompany.textContent.trim()
+                            : "Google";
+
+
+
+                    // =====================================
+                    // DAYS
+                    // =====================================
+
+                    const daysInput =
+                        document.getElementById(
+                            "days"
+                        );
+
+
+                    const days =
+                        daysInput
+                            ? Number(daysInput.value)
+                            : 7;
+
+
+
+                    // =====================================
+                    // VALIDATION
+                    // =====================================
+
+                    if (
+                        !days ||
+                        days < 1 ||
+                        days > 365
+                    ) {
+
+                        alert(
+                            "Please enter prediction days between 1 and 365."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    // =====================================
+                    // BUTTON
+                    // =====================================
+
+                    const button =
+                        predictionForm.querySelector(
+                            "button[type='submit']"
+                        );
+
+
+                    const originalText =
+                        button
+                            ? button.textContent
+                            : "Predict Price";
+
+
+                    if (button) {
+
+                        button.disabled =
+                            true;
+
+
+                        button.textContent =
+                            "Predicting...";
+
+                    }
+
+
+
+                    try {
+
+
+                        // =================================
+                        // API REQUEST
+                        // =================================
+
+                        const response =
+                            await fetch(
+                                "/predict?stock=" +
+                                encodeURIComponent(stock) +
+                                "&days=" +
+                                encodeURIComponent(days)
+                            );
+
+
+
+                        const data =
+                            await response.json();
+
+
+
+                        console.log(
+                            "Prediction response:",
+                            data
+                        );
+
+
+
+                        // =================================
+                        // API ERROR
+                        // =================================
+
+                        if (
+                            !response.ok ||
+                            data.error
+                        ) {
+
+                            alert(
+                                data.error ||
+                                "Unable to calculate prediction."
+                            );
+
+                            return;
+
+                        }
+
+
+
+                        // =================================
+                        // CHECK RESULT
+                        // =================================
+
+                        if (
+                            data.predicted_price ===
+                            undefined ||
+
+                            data.predicted_price ===
+                            null
+                        ) {
+
+                            alert(
+                                "Prediction result was not received."
+                            );
+
+                            return;
+
+                        }
+
+
+
+                        // =================================
+                        // SHOW POPUP
+                        // =================================
+
+                        showPredictionPopup(
+                            data.predicted_price,
+                            data.prediction_days || days,
+                            data.stock || stock,
+                            data.company || company
+                        );
+
+                    }
+
+
+                    catch (error) {
+
+
+                        console.error(
+                            "Prediction error:",
+                            error
+                        );
+
+
+                        alert(
+                            "Unable to connect to prediction server."
+                        );
+
+                    }
+
+
+                    finally {
+
+
+                        if (button) {
+
+                            button.disabled =
+                                false;
+
+
+                            button.textContent =
+                                originalText;
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
 
 
 </body>

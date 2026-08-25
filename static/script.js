@@ -366,10 +366,10 @@ async function startMovingLiveGraph() {
         );
 
 
-    const stockSelect =
-        document.getElementById(
-            "stockSelect"
-        );
+    const customStockSelect =
+    document.getElementById(
+        "customStockSelect"
+    );
 
 
     const livePrice =
@@ -384,12 +384,9 @@ async function startMovingLiveGraph() {
         );
 
 
-    if (!canvas || !stockSelect) {
-
-        return;
-
-    }
-
+    if (!canvas || !customStockSelect) {
+    return;
+}
 
     // Stop previous timer
 
@@ -404,8 +401,8 @@ async function startMovingLiveGraph() {
     }
 
 
-    const stock =
-        stockSelect.value;
+   const stock =
+    customStockSelect.dataset.stock;
 
 
     try {
@@ -1841,6 +1838,52 @@ function initializeChatbot() {
     );
 
 }
+
+function toggleStockDropdown() {
+
+    const dropdown =
+        document.getElementById("customStockSelect");
+
+    dropdown.classList.toggle("open");
+}
+
+
+function selectStock(symbol, company) {
+
+    document.getElementById("selectedCompany").textContent =
+        company;
+
+    document.getElementById("selectedSymbol").textContent =
+        "(" + symbol + ")";
+
+    document
+        .getElementById("customStockSelect")
+        .classList.remove("open");
+
+    // Change stock
+    window.location.href =
+        "/dashboard?stock=" + symbol;
+}
+
+
+/* Close dropdown when clicking outside */
+
+document.addEventListener("click", function(event) {
+
+    const dropdown =
+        document.getElementById("customStockSelect");
+
+    if (!dropdown) return;
+
+    if (!dropdown.contains(event.target)) {
+
+        dropdown.classList.remove("open");
+
+    }
+
+});
+
+
 
 
 // =====================================================

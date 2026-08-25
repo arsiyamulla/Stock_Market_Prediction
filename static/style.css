@@ -283,31 +283,290 @@ footer {
     font-size: 17px;
 }
 
-
 /* =====================================================
    STOCK SELECTOR
 ===================================================== */
 
 .stock-selector {
-    background: white;
-    padding: 22px;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-    min-width: 240px;
+    width: 270px;
+    position: relative;
+    z-index: 50;
 }
 
 .stock-selector label {
     display: block;
-    font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.stock-selector select {
+
+/* =====================================================
+   CUSTOM SELECT
+===================================================== */
+
+.custom-select {
+    position: relative;
     width: 100%;
-    padding: 12px;
-    border: 1px solid #dbe2ea;
-    border-radius: 10px;
+}
+
+
+/* =====================================================
+   SELECTED STOCK BOX
+===================================================== */
+
+.selected-stock {
+    height: 58px;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+
+    transition: all 0.25s ease;
+
+    position: relative;
+    z-index: 2;
+}
+
+.selected-stock:hover {
+    border-color: #2563eb;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =====================================================
+   COMPANY NAME
+===================================================== */
+
+.selected-company {
+    display: block;
+
     font-size: 15px;
+    font-weight: 700;
+
+    color: #0f172a;
+}
+
+.selected-symbol {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+
+/* =====================================================
+   ARROW
+===================================================== */
+
+.dropdown-arrow {
+    font-size: 22px;
+    color: #64748b;
+
+    transition: transform 0.25s ease;
+}
+
+.custom-select.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* =====================================================
+   DROPDOWN
+===================================================== */
+
+.stock-options {
+
+    position: absolute;
+
+    /* IMPORTANT */
+    top: calc(100% + 8px);
+
+    left: 0;
+    right: 0;
+
+    width: 100%;
+
+    padding: 7px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.15);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateY(-5px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+
+    /* IMPORTANT */
+    z-index: 9999;
+}
+
+
+/* OPEN */
+
+.custom-select.open .stock-options {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+
+/* =====================================================
+   STOCK OPTION
+===================================================== */
+
+.stock-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.stock-option:hover {
+    background: #f1f5f9;
+}
+
+
+/* STOCK ICON */
+
+.stock-icon {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    flex-shrink: 0;
+}
+
+
+.stock-info strong {
+
+    display: block;
+
+    font-size: 14px;
+
+    color: #0f172a;
+}
+
+
+.stock-info span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+body.dark .stock-selector label {
+    color: #94a3b8;
+}
+
+body.dark .selected-stock {
+    background: #111827;
+    border-color: #334155;
+}
+
+body.dark .selected-company {
+    color: #f8fafc;
+}
+
+body.dark .selected-symbol {
+    color: #94a3b8;
+}
+
+body.dark .dropdown-arrow {
+    color: #94a3b8;
+}
+
+body.dark .stock-options {
+    background: #111827;
+    border-color: #334155;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .stock-option:hover {
+    background: #1e293b;
+}
+
+body.dark .stock-info strong {
+    color: #f8fafc;
+}
+
+body.dark .stock-info span {
+    color: #94a3b8;
+}
+
+body.dark .stock-icon {
+    background: #172554;
+    color: #60a5fa;
 }
 
 
@@ -626,8 +885,8 @@ body.dark .live-status {
 
     background: rgba(15, 23, 42, 0.20);
 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */
+    /* -webkit-backdrop-filter: blur(10px); */
 
     z-index: 9998;
 }
@@ -3330,4 +3589,81 @@ body.dark .trend-range-dots span {
 /* Dark mode for graph */
 body.dark .trend-graph-wrapper {
     background: transparent;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 190px;
+    height: 190px;
+    object-fit: contain;
+}
+
+.logo span {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   FIX STOCK SELECTOR OVERLAPPING STOCK CARDS
+===================================================== */
+
+.dashboard-header {
+    position: relative;
+    z-index: 100;
+    margin-bottom: 45px;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.stock-selector {
+    position: relative;
+    z-index: 100;
+    flex-shrink: 0;
+
+    /* Remove movement that causes visual overlap */
+    transform: none;
+    box-shadow: none;
+}
+
+/* Keep selector stable when mouse is over it */
+.stock-selector:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Make sure stock cards stay below the selector */
+.stock-cards {
+    position: relative;
+    z-index: 1;
+}
+
+/* Keep dropdown above everything */
+.custom-select {
+    position: relative;
+    z-index: 200;
+}
+
+.stock-options {
+    z-index: 9999;
+}
+/* FINAL STOCK SELECTOR POSITION FIX */
+
+.selector-animation {
+    position: relative;
+    z-index: 100;
+    transform: none;
+}
+
+.stock-selector {
+    position: relative;
+    z-index: 100;
+    margin: 0;
 }

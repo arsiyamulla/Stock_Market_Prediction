@@ -10,8 +10,14 @@
 
     <title>StockPredict - Create Account</title>
 
+    <!-- CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- FAVICON -->
+    <link rel="icon"
+          type="image/jpeg"
+          href="{{ url_for('static', filename='logo.jpeg') }}">
 
 </head>
 
@@ -26,22 +32,18 @@
 <nav class="navbar">
 
     <div class="logo">
-        📈 StockPredict
-    </div>
+    <img src="{{ url_for('static', filename='fevicon.jpeg') }}"
+         alt="StockPredict Logo">
+    
+     </div>
 
     <div class="nav-links">
 
-        <a href="#">
-            
-        </a>
+        <a href="#"></a>
 
-        <a href="#">
-            
-        </a>
+        <a href="#"></a>
 
-        <a href="#">
-            
-        </a>
+        <a href="#"></a>
 
     </div>
 
@@ -265,8 +267,6 @@
 
 <script src="{{ url_for('static', filename='script.js') }}">
 </script>
-
-
 
 
 </body>
