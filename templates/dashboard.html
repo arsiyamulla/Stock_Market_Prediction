@@ -1189,110 +1189,207 @@
 
 </script>
 
-
-
 <!-- =====================================================
-     WEEKLY RANGE
+     WEEKLY PRICE RANGE - HEADER TOP + 3 CARDS LEFT + BIG CIRCLE RIGHT
 ===================================================== -->
 
-<div class="weekly-range-section">
+<div class="weekly-premium-section">
 
-
-    <div class="weekly-range-header">
-
-        <div>
-
-            <span class="weekly-range-icon">
-                📊
-            </span>
-
-
-            <div>
-
-                <h3>
-                    Weekly Price Range
-                </h3>
-
-
-                <p>
-                    Last 5 trading days
-                </p>
-
+    <!-- =============================================
+         HEADER - TOP FULL WIDTH
+    ============================================= -->
+    <div class="weekly-premium-header">
+        <div class="header-left">
+            <div class="premium-icon-wrapper">
+                <span class="premium-icon">📊</span>
             </div>
-
+            <div>
+                <h3>Weekly Price Range</h3>
+                <p>Last 5 trading days • Real-time data</p>
+            </div>
         </div>
-
+        
     </div>
 
+    <!-- =============================================
+         MAIN CONTENT - 3 CARDS LEFT + BIG CIRCLE RIGHT
+    ============================================= -->
+    <div class="weekly-premium-content">
 
+        <!-- LEFT: 3 CARDS STACKED -->
+        <div class="premium-cards-column">
 
-    <div class="weekly-range-content">
-
-
-        <!-- WEEK LOW -->
-
-        <div class="weekly-value low-value">
-
-            <span class="value-label">
-                WEEK LOW
-            </span>
-
-
-            <strong>
-                ${{ week_low }}
-            </strong>
-
-        </div>
-
-
-
-        <!-- RANGE BAR -->
-
-        <div class="range-wrapper">
-
-            <div class="range-line">
-
-                <div class="range-fill">
+            <!-- CARD 1: WEEK LOW -->
+            <div class="premium-white-card low-card">
+                <div class="card-accent"></div>
+                <div class="card-content">
+                    <div class="card-label">
+                        <span class="label-icon">⬇</span>
+                        WEEK LOW
+                    </div>
+                    <div class="card-price">$306.76</div>
+                    <div class="card-sub">Last 5 days minimum</div>
                 </div>
-
             </div>
 
+            <!-- CARD 2: WEEK HIGH -->
+            <div class="premium-white-card high-card">
+                <div class="card-accent"></div>
+                <div class="card-content">
+                    <div class="card-label">
+                        <span class="label-icon">⬆</span>
+                        WEEK HIGH
+                    </div>
+                    <div class="card-price">$313.94</div>
+                    <div class="card-sub">Last 5 days maximum</div>
+                </div>
+            </div>
 
-            <div class="range-dots">
-
-                <span>
-                </span>
-
-                <span>
-                </span>
-
-                <span>
-                </span>
-
+            <!-- CARD 3: RANGE -->
+            <div class="premium-white-card range-card">
+                <div class="card-accent"></div>
+                <div class="card-content">
+                    <div class="card-label">
+                        <span class="label-icon">↕</span>
+                        RANGE
+                    </div>
+                    <div class="card-price">$7.18</div>
+                    <div class="card-sub">Total spread</div>
+                </div>
             </div>
 
         </div>
 
+        <!-- RIGHT: BIG CIRCULAR CHART -->
+        <div class="premium-circle-wrapper">
 
+            <!-- SVG Circle Chart - BIGGER -->
+            <svg viewBox="0 0 400 400" width="400" height="400" class="premium-circle-svg">
 
-        <!-- WEEK HIGH -->
+                <defs>
+                    <!-- Clean shadow -->
+                    <filter id="cleanShadow" x="-10%" y="-10%" width="120%" height="120%">
+                        <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="rgba(0,0,0,0.06)" />
+                    </filter>
 
-        <div class="weekly-value high-value">
+                    <!-- Ring gradient -->
+                    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#f87171" />
+                        <stop offset="50%" stop-color="#fbbf24" />
+                        <stop offset="100%" stop-color="#34d399" />
+                    </linearGradient>
+                </defs>
 
-            <span class="value-label">
-                WEEK HIGH
-            </span>
+                <!-- Background ring -->
+                <circle
+                    cx="200"
+                    cy="200"
+                    r="155"
+                    fill="#f8fafc"
+                    stroke="#e2e8f0"
+                    stroke-width="2"
+                    filter="url(#cleanShadow)"
+                />
 
+                <!-- Main colored ring -->
+                <circle
+                    cx="200"
+                    cy="200"
+                    r="155"
+                    fill="none"
+                    stroke="url(#ringGrad)"
+                    stroke-width="7"
+                    stroke-dasharray="194.78 194.78"
+                    stroke-dashoffset="0"
+                    stroke-linecap="round"
+                    class="animated-ring"
+                />
 
-            <strong>
-                ${{ week_high }}
-            </strong>
+                <!-- Inner subtle ring -->
+                <circle
+                    cx="200"
+                    cy="200"
+                    r="155"
+                    fill="none"
+                    stroke="rgba(251,191,36,0.04)"
+                    stroke-width="24"
+                />
+
+                <!-- =========================================
+                     5 DOTS WITH LABELS
+                ========================================= -->
+
+                <!-- Day 1: MON - 270° (bottom) -->
+                <g class="dot-group">
+                    <circle cx="200" cy="355" r="13" fill="#fbbf24" stroke="white" stroke-width="4" class="premium-dot" />
+                    <circle cx="200" cy="355" r="24" fill="rgba(251,191,36,0.12)" class="dot-ripple" />
+                    <rect x="165" y="370" width="70" height="26" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5" />
+                    <text x="200" y="389" class="premium-dot-label" text-anchor="middle" fill="#1e293b" font-weight="700" font-size="11">MON</text>
+                    <text x="200" y="357" class="premium-dot-price" text-anchor="middle" fill="#fbbf24" font-weight="700" font-size="11">$312.50</text>
+                </g>
+
+                <!-- Day 2: TUE - 198° (bottom-left) -->
+                <g class="dot-group">
+                    <circle cx="48" cy="266" r="13" fill="#f87171" stroke="white" stroke-width="4" class="premium-dot" />
+                    <circle cx="48" cy="266" r="24" fill="rgba(248,113,113,0.12)" class="dot-ripple" />
+                    <rect x="12" y="240" width="70" height="26" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5" />
+                    <text x="47" y="259" class="premium-dot-label" text-anchor="middle" fill="#1e293b" font-weight="700" font-size="11">TUE</text>
+                    <text x="47" y="270" class="premium-dot-price" text-anchor="end" fill="#f87171" font-weight="700" font-size="11">$310.20</text>
+                </g>
+
+                <!-- Day 3: WED - 126° (top-left) -->
+                <g class="dot-group">
+                    <circle cx="84" cy="82" r="13" fill="#a78bfa" stroke="white" stroke-width="4" class="premium-dot" />
+                    <circle cx="84" cy="82" r="24" fill="rgba(167,139,250,0.12)" class="dot-ripple" />
+                    <rect x="12" y="50" width="74" height="26" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5" />
+                    <text x="49" y="69" class="premium-dot-label" text-anchor="middle" fill="#1e293b" font-weight="700" font-size="11">WED</text>
+                    <text x="49" y="82" class="premium-dot-price" text-anchor="end" fill="#a78bfa" font-weight="700" font-size="11">$308.90</text>
+                </g>
+
+                <!-- Day 4: THU - 54° (top-right) -->
+                <g class="dot-group">
+                    <circle cx="316" cy="82" r="13" fill="#60a5fa" stroke="white" stroke-width="4" class="premium-dot" />
+                    <circle cx="316" cy="82" r="24" fill="rgba(96,165,250,0.12)" class="dot-ripple" />
+                    <rect x="314" y="50" width="74" height="26" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5" />
+                    <text x="351" y="69" class="premium-dot-label" text-anchor="middle" fill="#1e293b" font-weight="700" font-size="11">THU</text>
+                    <text x="351" y="82" class="premium-dot-price" text-anchor="start" fill="#60a5fa" font-weight="700" font-size="11">$311.75</text>
+                </g>
+
+                <!-- Day 5: FRI - 342° (bottom-right) -->
+                <g class="dot-group">
+                    <circle cx="352" cy="266" r="13" fill="#34d399" stroke="white" stroke-width="4" class="premium-dot" />
+                    <circle cx="352" cy="266" r="24" fill="rgba(52,211,153,0.12)" class="dot-ripple" />
+                    <rect x="318" y="240" width="70" height="26" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5" />
+                    <text x="353" y="259" class="premium-dot-label" text-anchor="middle" fill="#1e293b" font-weight="700" font-size="11">FRI</text>
+                    <text x="353" y="270" class="premium-dot-price" text-anchor="start" fill="#34d399" font-weight="700" font-size="11">$313.94</text>
+                </g>
+
+                <!-- Center: 5-DAY RANGE -->
+                <g>
+                    <rect x="152" y="185" width="96" height="42" rx="12" fill="white" stroke="#e2e8f0" stroke-width="1.5" />
+                    <text x="200" y="204" class="center-main" text-anchor="middle" font-size="13" font-weight="800" fill="#6366f1" letter-spacing="1.5">5-DAY</text>
+                    <text x="200" y="222" class="center-main" text-anchor="middle" font-size="13" font-weight="800" fill="#6366f1" letter-spacing="1.5">RANGE</text>
+                </g>
+
+            </svg>
+
+            <!-- Floating Stats -->
+            <div class="floating-stat top-right">
+                <span class="stat-label">VOLATILITY</span>
+                <span class="stat-value">2.3%</span>
+            </div>
+            <div class="floating-stat bottom-left">
+                <span class="stat-label">TRADING DAYS</span>
+                <span class="stat-value">5</span>
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+
 
 
 
