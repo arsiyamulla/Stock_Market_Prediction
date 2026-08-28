@@ -17,7 +17,13 @@ COMPANIES = {
     "GOOGL": "Google",
     "AAPL": "Apple",
     "MSFT": "Microsoft",
-    "AMZN": "Amazon"
+    "AMZN": "Amazon",
+
+    "TSLA": "Tesla",
+    "NVDA": "NVIDIA",
+    "META": "Meta",
+    "NFLX": "Netflix",
+    "KO": "Coca-Cola"
 }
 
 
