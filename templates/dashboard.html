@@ -375,6 +375,8 @@
                 data-stock="{{ selected_stock }}"
             >
 
+            
+
 
                 <!-- SELECTED STOCK -->
 
@@ -451,6 +453,15 @@
                 </div>
 
             </div>
+
+            <button
+        type="button"
+        class="watchlist-add-btn"
+        id="addWatchlistBtn"
+    >
+        ☆ Add to Watchlist
+    </button>
+
 
         </div>
 
@@ -533,6 +544,42 @@
         </div>
 
     </section>
+
+    </section>
+
+
+<!-- =================================================
+     MY WATCHLIST
+===================================================== -->
+
+<section class="watchlist-section">
+
+    <div class="watchlist-header">
+
+        <div>
+            <h2>⭐ My Watchlist</h2>
+            <p>Your favorite stocks</p>
+        </div>
+
+    </div>
+
+    <div
+        id="watchlistContainer"
+        class="watchlist-container"
+    >
+
+        <!-- JavaScript will add stocks here -->
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     LIVE STOCK GRAPH
+===================================================== -->
+
+<section class="chart-card live-stock-card">
 
 
 
@@ -1390,7 +1437,35 @@
 </div>
 
 
+<!-- =====================================================
+     LIVE STOCK NEWS TICKER - COMPANY LOGOS
+===================================================== -->
 
+<section class="news-ticker-section">
+
+    <div class="news-ticker-header">
+        <div class="news-ticker-header-left">
+            <span class="news-ticker-icon">🏷️</span>
+            <div>
+                <h3>Live Market Feed</h3>
+                <p>Real-time updates from global markets</p>
+            </div>
+        </div>
+        <div class="news-ticker-header-right">
+            <span class="live-badge-news">
+                <span class="live-dot-news"></span>
+                LIVE
+            </span>
+        </div>
+    </div>
+
+    <div class="news-ticker-wrapper">
+        <div class="news-ticker-track" id="newsTickerTrack">
+            <!-- Cards inserted by JavaScript -->
+        </div>
+    </div>
+
+</section>
 
 
 <!-- =====================================================
@@ -2464,6 +2539,113 @@ document.addEventListener(
 
 </script>
 
+<!-- =====================================================
+     WATCHLIST POPUP
+===================================================== -->
+
+<div
+    class="watchlist-popup-overlay"
+    id="watchlistPopup"
+>
+
+    <div
+        class="watchlist-popup"
+        id="watchlistPopupContent"
+    >
+
+        <button
+            type="button"
+            class="watchlist-popup-close"
+            id="watchlistPopupClose"
+        >
+            &times;
+        </button>
+
+
+        <div class="watchlist-popup-icon">
+            ★
+        </div>
+
+
+        <div class="watchlist-popup-message">
+
+            <strong id="watchlistPopupTitle">
+                Already Added
+            </strong>
+
+            <span id="watchlistPopupStock">
+                Apple (AAPL)
+            </span>
+
+            <p id="watchlistPopupText">
+                This stock is already in your watchlist.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =====================================================
+     STOCK DETAIL POPUP - WORKING VERSION
+===================================================== -->
+
+<div class="stock-detail-overlay" id="stockDetailOverlay">
+    <div class="stock-detail-popup" id="stockDetailPopup">
+        
+        <button class="popup-close-btn" id="popupCloseBtn" onclick="closeStockPopup()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+
+        <div class="popup-header">
+            <div class="popup-logo-wrapper" id="popupLogoWrapper">
+                <div class="popup-logo" id="popupLogo"></div>
+            </div>
+            <div class="popup-company-info">
+                <h2 id="popupCompanyName">Apple Inc.</h2>
+                <span class="popup-symbol" id="popupSymbol">AAPL</span>
+            </div>
+        </div>
+
+        <div class="popup-price-section">
+            <div class="popup-price-row">
+                <span class="popup-price-label">Current Price</span>
+                <span class="popup-price-value" id="popupPrice">$187.32</span>
+            </div>
+            <div class="popup-change-row">
+                <span class="popup-change-badge" id="popupChangeBadge">
+                    <span id="popupChangeIcon">▲</span>
+                    <span id="popupChangeText">+2.35%</span>
+                </span>
+                <span class="popup-change-label">Today's Change</span>
+            </div>
+        </div>
+
+        <div class="popup-divider"></div>
+
+        <div class="popup-news-section">
+            <div class="popup-news-header">
+                <span class="popup-news-icon">📰</span>
+                <span class="popup-news-label">Latest News</span>
+            </div>
+            <p class="popup-news-title" id="popupNewsTitle">Apple announces new AI features for iPhone 16</p>
+            <div class="popup-news-meta">
+                <span class="popup-news-source" id="popupNewsSource">Bloomberg</span>
+                <span class="popup-news-time" id="popupNewsTime">• 2 min ago</span>
+            </div>
+        </div>
+
+        <!-- <button class="popup-action-btn" onclick="closeStockPopup()">
+            <span>View Full Analysis</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button> -->
+
+    </div>
+</div>
 
 
 </body>

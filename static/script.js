@@ -1883,8 +1883,626 @@ document.addEventListener("click", function(event) {
 
 });
 
+// =====================================================
+// WATCHLIST
+// =====================================================
+
+const WATCHLIST_KEY = "stockPredictWatchlist";
+
+function getWatchlist() {
+
+    return JSON.parse(
+        localStorage.getItem(WATCHLIST_KEY)
+    ) || [];
+
+}
 
 
+function saveWatchlist(watchlist) {
+
+    localStorage.setItem(
+        WATCHLIST_KEY,
+        JSON.stringify(watchlist)
+    );
+
+}
+
+function addToWatchlist(symbol, company) {
+
+    const watchlist = getWatchlist();
+
+
+    const exists =
+        watchlist.some(
+            stock => stock.symbol === symbol
+        );
+
+
+    // Already exists
+    if (exists) {
+
+        showWatchlistPopup(
+            company,
+            symbol
+        );
+
+        return false;
+
+    }
+
+
+    // Add stock
+    watchlist.push({
+
+        symbol: symbol,
+
+        company: company
+
+    });
+
+
+    saveWatchlist(
+        watchlist
+    );
+
+
+    renderWatchlist();
+
+
+    return true;
+
+}
+
+
+function removeFromWatchlist(symbol) {
+
+    let watchlist = getWatchlist();
+
+    watchlist =
+        watchlist.filter(
+            stock => stock.symbol !== symbol
+        );
+
+    saveWatchlist(watchlist);
+
+    renderWatchlist();
+
+}
+
+
+function renderWatchlist() {
+
+    const container =
+        document.getElementById(
+            "watchlistContainer"
+        );
+
+    if (!container) return;
+
+    const watchlist =
+        getWatchlist();
+
+
+    if (watchlist.length === 0) {
+
+        container.innerHTML = `
+            <div class="watchlist-empty">
+                ⭐ Your watchlist is empty.
+                Add stocks you want to track.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        watchlist.map(stock => `
+
+            <div class="watchlist-item">
+
+                <div
+                    class="watchlist-stock"
+                    onclick="openWatchlistStock('${stock.symbol}')"
+                    style="cursor:pointer;"
+                >
+
+                    <span class="watchlist-symbol">
+                        ${stock.symbol}
+                    </span>
+
+                    <span class="watchlist-company">
+                        ${stock.company}
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="watchlist-remove"
+                    onclick="removeFromWatchlist('${stock.symbol}')"
+                >
+                    ×
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function openWatchlistStock(symbol) {
+
+    window.location.href =
+        "/dashboard?stock=" +
+        encodeURIComponent(symbol);
+
+}
+
+
+renderWatchlist();
+
+// =====================================================
+// ADD CURRENT STOCK TO WATCHLIST
+// =====================================================
+
+const addWatchlistBtn =
+    document.getElementById("addWatchlistBtn");
+
+
+if (addWatchlistBtn) {
+
+    addWatchlistBtn.addEventListener(
+        "click",
+        function () {
+
+            const customSelect =
+                document.getElementById(
+                    "customStockSelect"
+                );
+
+            const selectedCompany =
+                document.getElementById(
+                    "selectedCompany"
+                );
+
+
+            if (!customSelect || !selectedCompany) {
+                return;
+            }
+
+
+            const symbol =
+                customSelect.dataset.stock;
+
+            const company =
+                selectedCompany.textContent.trim();
+
+
+            addToWatchlist(
+                symbol,
+                company
+            );
+
+
+            // Change button after adding
+
+            addWatchlistBtn.textContent =
+                "✓ Added to Watchlist";
+
+
+            addWatchlistBtn.classList.add(
+                "added"
+            );
+
+
+            setTimeout(function () {
+
+                addWatchlistBtn.textContent =
+                    "☆ Add to Watchlist";
+
+                addWatchlistBtn.classList.remove(
+                    "added"
+                );
+
+            }, 1500);
+
+        }
+    );
+
+}
+
+// =====================================================
+// WATCHLIST POPUP
+// =====================================================
+
+function showWatchlistPopup(company, symbol) {
+
+    const overlay =
+        document.getElementById(
+            "watchlistPopup"
+        );
+
+
+    const popup =
+        document.getElementById(
+            "watchlistPopupContent"
+        );
+
+
+    const stock =
+        document.getElementById(
+            "watchlistPopupStock"
+        );
+
+
+    if (!overlay || !popup) {
+        return;
+    }
+
+
+    // Stock name
+
+    if (stock) {
+
+        stock.textContent =
+            company +
+            " (" +
+            symbol +
+            ")";
+
+    }
+
+
+    // Show popup
+
+    overlay.style.display =
+        "flex";
+
+
+    setTimeout(function () {
+
+        popup.classList.add(
+            "show"
+        );
+
+    }, 20);
+
+}
+// =====================================================
+// CLOSE WATCHLIST POPUP
+// =====================================================
+
+function closeWatchlistPopup() {
+
+    const overlay =
+        document.getElementById(
+            "watchlistPopup"
+        );
+
+
+    const popup =
+        document.getElementById(
+            "watchlistPopupContent"
+        );
+
+
+    if (!overlay || !popup) {
+        return;
+    }
+
+
+    popup.classList.remove(
+        "show"
+    );
+
+
+    setTimeout(function () {
+
+        overlay.style.display =
+            "none";
+
+    }, 250);
+
+}
+// =====================================================
+// WATCHLIST POPUP EVENTS
+// =====================================================
+
+const watchlistPopupClose =
+    document.getElementById(
+        "watchlistPopupClose"
+    );
+
+
+if (watchlistPopupClose) {
+
+    watchlistPopupClose.addEventListener(
+        "click",
+        closeWatchlistPopup
+    );
+
+}
+
+
+const watchlistPopup =
+    document.getElementById(
+        "watchlistPopup"
+    );
+
+
+if (watchlistPopup) {
+
+    watchlistPopup.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                watchlistPopup
+            ) {
+
+                closeWatchlistPopup();
+
+            }
+
+        }
+    );
+
+}
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeWatchlistPopup();
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// LIVE STOCK NEWS TICKER - COMPANY LOGOS
+// =====================================================
+
+const newsData = [
+    {
+        symbol: "AAPL",
+        company: "Apple Inc.",
+        logo: `<svg viewBox="0 0 384 512" width="40" height="40"><path fill="#555" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90.2-59.9-92.1zM256 80c-2.8-25.4 9.2-50.2 28-68.3-19.4-9.5-44.5-14.6-72.1-13.9-6.3 23.9-0.5 46.5 17.6 64.7 18.2 18.5 42.2 27.2 69.2 25.3 6.3-22.9-1.6-44.6-18.7-63.2z"/></svg>`,
+        bgColor: "#f5f5f7",
+        title: "Apple announces new AI features for iPhone 16",
+        price: 187.32,
+        change: "+2.35%",
+        positive: true,
+        time: "2 min ago",
+        source: "Bloomberg"
+    },
+    {
+        symbol: "TSLA",
+        company: "Tesla Inc.",
+        logo: `<svg viewBox="0 0 384 512" width="40" height="40"><path fill="#dc2626" d="M179.2 0L0 512h76.8l38.4-102.4h153.6L307.2 512H384L204.8 0h-25.6zm25.6 128l51.2 153.6H153.6L204.8 128z"/></svg>`,
+        bgColor: "#fef2f2",
+        title: "Tesla deliveries beat Q4 expectations by 15%",
+        price: 238.15,
+        change: "-1.12%",
+        positive: false,
+        time: "15 min ago",
+        source: "Reuters"
+    },
+    {
+        symbol: "NVDA",
+        company: "NVIDIA Corp.",
+        logo: `<svg viewBox="0 0 384 512" width="40" height="40"><path fill="#22c55e" d="M192 0C86.4 0 0 86.4 0 192s86.4 192 192 192 192-86.4 192-192S297.6 0 192 0zm0 320c-70.4 0-128-57.6-128-128S121.6 64 192 64s128 57.6 128 128-57.6 128-128 128zm-32-64h64v-64h64v-64h-64V64h-64v64h-64v64h64v64z"/></svg>`,
+        bgColor: "#f0fdf4",
+        title: "NVIDIA launches next-gen AI chips with 3x performance",
+        price: 128.90,
+        change: "+5.67%",
+        positive: true,
+        time: "28 min ago",
+        source: "CNBC"
+    },
+    {
+        symbol: "AMZN",
+        company: "Amazon Inc.",
+        logo: `<svg viewBox="0 0 448 512" width="40" height="40"><path fill="#f59e0b" d="M257.2 162.7c-48.7 1.8-169.5 15.5-169.5 117.5 0 109.5 138.3 114 183.5 43.2 6.5 10.2 35.4 37.5 45.3 46.8l56.8-56S341 288.9 341 261.4V114.3C341 89 316.5 32 228.7 32 140.7 32 94 87 94 136.3l73.5 6.8c16.3-49.5 54.2-49.5 54.2-49.5 40.7-.1 35.5 29.8 35.5 69.1zm0 86.8c0 80-84.2 68.5-84.2 17.2 0-47.2 50.5-56.7 84.2-57.8v40.6zm136 163.5c-7.7 10-70.5-21-70.5-21l-13.8 33.7s38.2 28.2 62.8 31.8c24.7 3.7 60.8-4 60.8-4v-45.5s-14.2 3.5-39.3 5z"/></svg>`,
+        bgColor: "#fffbeb",
+        title: "Amazon expands same-day delivery to 50 new cities",
+        price: 189.45,
+        change: "+0.82%",
+        positive: true,
+        time: "42 min ago",
+        source: "WSJ"
+    },
+    {
+        symbol: "META",
+        company: "Meta Platforms",
+        logo: `<svg viewBox="0 0 512 512" width="40" height="40"><path fill="#8b5cf6" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm-40-80h80v-80h-80v80zm0-160h80V128h-80v80z"/></svg>`,
+        bgColor: "#faf5ff",
+        title: "Meta reports record ad revenue growth of 25%",
+        price: 348.70,
+        change: "-3.05%",
+        positive: false,
+        time: "1 hour ago",
+        source: "FT"
+    },
+    {
+        symbol: "GOOGL",
+        company: "Alphabet Inc.",
+        logo: `<svg viewBox="0 0 488 512" width="40" height="40"><path fill="#3b82f6" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/></svg>`,
+        bgColor: "#eff6ff",
+        title: "Google Cloud revenue surges 35%, beats estimates",
+        price: 142.80,
+        change: "+1.45%",
+        positive: true,
+        time: "2 hours ago",
+        source: "TechCrunch"
+    },
+    {
+        symbol: "MSFT",
+        company: "Microsoft Corp.",
+        logo: `<svg viewBox="0 0 448 512" width="40" height="40"><path fill="#06b6d4" d="M0 0h213.3v213.3H0V0zm234.7 0H448v213.3H234.7V0zM0 234.7h213.3V448H0V234.7zm234.7 0H448V448H234.7V234.7z"/></svg>`,
+        bgColor: "#f0faff",
+        title: "Microsoft AI Copilot adoption grows 200% in Q4",
+        price: 378.90,
+        change: "+0.92%",
+        positive: true,
+        time: "3 hours ago",
+        source: "Bloomberg"
+    },
+    {
+        symbol: "JPM",
+        company: "JPMorgan Chase",
+        logo: `<svg viewBox="0 0 448 512" width="40" height="40"><path fill="#14b8a6" d="M0 0v512h448V0H0zm400 464H48V48h352v416zM128 128h192v32H128v-32zm0 64h192v32H128v-32zm0 64h192v32H128v-32zm0 64h192v32H128v-32z"/></svg>`,
+        bgColor: "#f0fdf4",
+        title: "JPMorgan beats earnings estimates on strong trading",
+        price: 155.60,
+        change: "-0.45%",
+        positive: false,
+        time: "4 hours ago",
+        source: "Reuters"
+    }
+];
+
+// =====================================================
+// CREATE NEWS CARD
+// =====================================================
+
+function createNewsCard(news) {
+    const card = document.createElement('div');
+    card.className = 'news-card';
+    card.setAttribute('data-symbol', news.symbol);
+    card.onclick = function() {
+        openStockPopup(news);
+    };
+
+    card.innerHTML = `
+        <div class="news-card-top" style="background: ${news.bgColor};">
+            <div class="logo-wrapper">
+                ${news.logo}
+            </div>
+            <span class="big-symbol">${news.symbol}</span>
+            <span class="company-name-small">${news.company}</span>
+            <div class="price-row">
+                <span class="price-ticker">$${news.price.toFixed(2)}</span>
+                <span class="${news.positive ? 'change-ticker-up' : 'change-ticker-down'}">
+                    ${news.positive ? '▲' : '▼'} ${news.change}
+                </span>
+            </div>
+        </div>
+        <div class="news-card-bottom">
+            <p class="news-title-ticker">${news.title}</p>
+            <div class="news-source-ticker">
+                <span>${news.source}</span>
+                <span class="time-ticker">• ${news.time}</span>
+            </div>
+        </div>
+    `;
+
+    return card;
+}
+
+// =====================================================
+// BUILD NEWS TICKER
+// =====================================================
+
+function buildNewsTicker() {
+    const track = document.getElementById('newsTickerTrack');
+    if (!track) return;
+
+    track.innerHTML = '';
+
+    newsData.forEach(news => {
+        track.appendChild(createNewsCard(news));
+    });
+
+    newsData.forEach(news => {
+        track.appendChild(createNewsCard(news));
+    });
+}
+
+// =====================================================
+// OPEN STOCK DETAIL POPUP
+// =====================================================
+
+function openStockPopup(news) {
+    const overlay = document.getElementById('stockDetailOverlay');
+    const popup = document.getElementById('stockDetailPopup');
+
+    if (!overlay || !popup) return;
+
+    document.getElementById('popupCompanyName').textContent = news.company;
+    document.getElementById('popupSymbol').textContent = news.symbol;
+    document.getElementById('popupLogo').innerHTML = news.logo;
+    document.getElementById('popupLogoWrapper').style.background = news.bgColor;
+    document.getElementById('popupPrice').textContent = `$${news.price.toFixed(2)}`;
+
+    const changeBadge = document.getElementById('popupChangeBadge');
+    const changeIcon = document.getElementById('popupChangeIcon');
+    const changeText = document.getElementById('popupChangeText');
+
+    changeBadge.className = `popup-change-badge ${news.positive ? 'positive' : 'negative'}`;
+    changeIcon.textContent = news.positive ? '▲' : '▼';
+    changeText.textContent = news.change;
+
+    document.getElementById('popupNewsTitle').textContent = news.title;
+    document.getElementById('popupNewsSource').textContent = news.source;
+    document.getElementById('popupNewsTime').textContent = `• ${news.time}`;
+
+    overlay.classList.add('active');
+
+    popup.style.animation = 'none';
+    requestAnimationFrame(() => {
+        popup.style.animation = 'popupSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    });
+}
+
+// =====================================================
+// CLOSE STOCK POPUP - THIS WAS MISSING!
+// =====================================================
+
+function closeStockPopup() {
+    const overlay = document.getElementById('stockDetailOverlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// =====================================================
+// POPUP EVENT LISTENERS - SINGLE VERSION
+// =====================================================
+
+// Setup on page load
+setTimeout(function() {
+    // Close button - using onclick in HTML already
+    // Click outside to close
+    const overlay = document.getElementById('stockDetailOverlay');
+    if (overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closeStockPopup();
+            }
+        });
+    }
+
+    // ESC key to close
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeStockPopup();
+        }
+    });
+
+    // Build ticker
+    buildNewsTicker();
+}, 100);
 
 // =====================================================
 // END OF SCRIPT
