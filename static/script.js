@@ -2505,5 +2505,228 @@ setTimeout(function() {
 }, 100);
 
 // =====================================================
+// VIEW FULL ANALYSIS - Refresh Dashboard with stock
+// =====================================================
+
+function viewFullAnalysis() {
+    const customSelect = document.getElementById('customStockSelect');
+    const selectedCompany = document.getElementById('selectedCompany');
+    
+    const symbol = customSelect ? customSelect.dataset.stock : 'AAPL';
+    const company = selectedCompany ? selectedCompany.textContent.trim() : 'Stock';
+    
+    // Close the popup
+    closeStockPopup();
+    
+    // Refresh dashboard with the same stock (shows historical data)
+    window.location.href = `/dashboard?stock=${symbol}`;
+}
+
+// =====================================================
+// STOCK COMPARISON - SIMPLE VERSION (No Winner/Loser)
+// =====================================================
+
+// Stock data
+const stockPrices = {
+    'AAPL': { price: 187.32, change: '+2.35%', up: true, pe: 28.4, volume: '45.2M', marketCap: '$2.8T' },
+    'GOOGL': { price: 142.80, change: '+1.45%', up: true, pe: 24.1, volume: '32.8M', marketCap: '$1.9T' },
+    'MSFT': { price: 378.90, change: '+0.92%', up: true, pe: 35.2, volume: '28.1M', marketCap: '$2.8T' },
+    'AMZN': { price: 189.45, change: '+0.82%', up: true, pe: 42.7, volume: '38.5M', marketCap: '$1.9T' },
+    'META': { price: 348.70, change: '-3.05%', up: false, pe: 32.8, volume: '22.3M', marketCap: '$1.1T' },
+    'TSLA': { price: 238.15, change: '-1.12%', up: false, pe: 58.9, volume: '51.6M', marketCap: '$0.8T' },
+    'NVDA': { price: 128.90, change: '+5.67%', up: true, pe: 62.3, volume: '68.4M', marketCap: '$0.9T' },
+    'JPM': { price: 155.60, change: '-0.45%', up: false, pe: 12.5, volume: '18.7M', marketCap: '$0.5T' },
+    // ADDED THESE TWO LINES 👇
+    'NFLX': { price: 545.20, change: '+1.80%', up: true, pe: 32.5, volume: '12.4M', marketCap: '$290B' },
+    'KO': { price: 63.45, change: '-0.25%', up: false, pe: 25.1, volume: '15.8M', marketCap: '$270B' }
+};
+
+// Company names
+const companyNames = {
+    'AAPL': 'Apple Inc.',
+    'GOOGL': 'Alphabet Inc.',
+    'MSFT': 'Microsoft Corp.',
+    'AMZN': 'Amazon Inc.',
+    'META': 'Meta Platforms',
+    'TSLA': 'Tesla Inc.',
+    'NVDA': 'NVIDIA Corp.',
+    'JPM': 'JPMorgan Chase',
+     'NFLX': 'Netflix Inc.',
+    'KO': 'The Coca-Cola Company'
+};
+
+function updateComparison() {
+    const stock1 = document.getElementById('compareStock1').value;
+    const stock2 = document.getElementById('compareStock2').value;
+    const result = document.getElementById('comparisonResult');
+    
+    if (stock1 === stock2) {
+        result.innerHTML = `
+            <div class="comparison-placeholder" style="color:#dc2626;">
+                <span class="placeholder-icon">⚠️</span>
+                <p>Please select two different stocks</p>
+                <span class="placeholder-sub">Compare different companies for insights</span>
+            </div>
+        `;
+        result.className = 'comparison-result';
+        return;
+    }
+    
+    const data1 = stockPrices[stock1];
+    const data2 = stockPrices[stock2];
+    
+    if (!data1 || !data2) {
+        result.innerHTML = `
+            <div class="comparison-placeholder">
+                <span class="placeholder-icon">⏳</span>
+                <p>Loading comparison data...</p>
+            </div>
+        `;
+        result.className = 'comparison-result';
+        return;
+    }
+    
+    result.className = 'comparison-result has-data';
+    
+    result.innerHTML = `
+        <div class="comparison-grid">
+            <!-- STOCK 1 -->
+            <div class="comparison-card">
+                <div class="cmp-symbol">${stock1}</div>
+                <div class="cmp-company">${companyNames[stock1] || stock1}</div>
+                <div class="cmp-price-row">
+                    <span class="cmp-price">$${data1.price.toFixed(2)}</span>
+                    <span class="cmp-change ${data1.up ? 'cmp-up' : 'cmp-down'}">
+                        ${data1.up ? '▲' : '▼'} ${data1.change}
+                    </span>
+                </div>
+                <div class="cmp-details">
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">P/E Ratio</span>
+                        <span class="detail-value">${data1.pe}</span>
+                    </div>
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">Volume</span>
+                        <span class="detail-value">${data1.volume}</span>
+                    </div>
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">Market Cap</span>
+                        <span class="detail-value">${data1.marketCap}</span>
+                    </div>
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">Performance</span>
+                        <span class="detail-value" style="color: ${data1.up ? '#16a34a' : '#dc2626'}">
+                            ${data1.up ? '▲ Bullish' : '▼ Bearish'}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VS DIVIDER -->
+            <div class="comparison-vs-divider">
+                <div class="vs-line"></div>
+                <div class="vs-circle">VS</div>
+                <div class="vs-line"></div>
+            </div>
+
+            <!-- STOCK 2 -->
+            <div class="comparison-card">
+                <div class="cmp-symbol">${stock2}</div>
+                <div class="cmp-company">${companyNames[stock2] || stock2}</div>
+                <div class="cmp-price-row">
+                    <span class="cmp-price">$${data2.price.toFixed(2)}</span>
+                    <span class="cmp-change ${data2.up ? 'cmp-up' : 'cmp-down'}">
+                        ${data2.up ? '▲' : '▼'} ${data2.change}
+                    </span>
+                </div>
+                <div class="cmp-details">
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">P/E Ratio</span>
+                        <span class="detail-value">${data2.pe}</span>
+                    </div>
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">Volume</span>
+                        <span class="detail-value">${data2.volume}</span>
+                    </div>
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">Market Cap</span>
+                        <span class="detail-value">${data2.marketCap}</span>
+                    </div>
+                    <div class="cmp-detail-item">
+                        <span class="detail-label">Performance</span>
+                        <span class="detail-value" style="color: ${data2.up ? '#16a34a' : '#dc2626'}">
+                            ${data2.up ? '▲ Bullish' : '▼ Bearish'}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Auto update on load
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(updateComparison, 300);
+});
+
+// =====================================================
+// COMPARISON DROPDOWN FUNCTIONS
+// =====================================================
+
+// Stock icons mapping
+const stockIcons = {
+    'AAPL': '🍎',
+    'GOOGL': '🌐',
+    'MSFT': '🪟',
+    'AMZN': '📦',
+    'META': '🔷',
+    'TSLA': '🚗',
+    'NVDA': '💻',
+    'JPM': '🏦',
+    'NFLX': '🎬',
+    'KO': '🥤'
+};
+
+function toggleComparisonDropdown(dropdownId) {
+    // Close all other dropdowns
+    document.querySelectorAll('.comparison-select-wrapper').forEach(wrapper => {
+        const id = wrapper.querySelector('.comparison-dropdown')?.id;
+        if (id && id !== dropdownId) {
+            wrapper.classList.remove('active');
+        }
+    });
+    
+    const wrapper = document.getElementById(dropdownId).closest('.comparison-select-wrapper');
+    wrapper.classList.toggle('active');
+}
+
+function selectComparisonStock(inputId, symbol, company) {
+    // Update hidden input
+    document.getElementById(inputId).value = symbol;
+    
+    // Update selected display
+    const dropdownId = inputId === 'compareStock1' ? 'compareDropdown1' : 'compareDropdown2';
+    const wrapper = document.getElementById(dropdownId).closest('.comparison-select-wrapper');
+    wrapper.querySelector('.comparison-selected-symbol').textContent = symbol;
+    wrapper.querySelector('.comparison-selected-company').textContent = company;
+    wrapper.querySelector('.comparison-selected-icon').textContent = stockIcons[symbol] || symbol[0];
+    
+    // Close dropdown with animation
+    wrapper.classList.remove('active');
+    
+    // Update comparison
+    updateComparison();
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.comparison-select-wrapper')) {
+        document.querySelectorAll('.comparison-select-wrapper').forEach(wrapper => {
+            wrapper.classList.remove('active');
+        });
+    }
+});
+
+// =====================================================
 // END OF SCRIPT
 // =====================================================

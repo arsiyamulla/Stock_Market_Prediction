@@ -1468,22 +1468,6 @@
 </section>
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
-    <p>
-
-        © 2026 StockPredict |
-        AI-Powered Stock Price Prediction Dashboard
-
-    </p>
-
-</footer>
-
-
 
 <!-- =====================================================
      FLASK DATA
@@ -2637,15 +2621,107 @@ document.addEventListener(
             </div>
         </div>
 
-        <!-- <button class="popup-action-btn" onclick="closeStockPopup()">
-            <span>View Full Analysis</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        </button> -->
+       <button class="popup-action-btn" onclick="viewFullAnalysis()">
+    <span>View Full Analysis</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+</button>
 
     </div>
 </div>
+
+<!-- =====================================================
+     STOCK COMPARISON - ENHANCED UI
+===================================================== -->
+
+<section class="comparison-section">
+    <div class="comparison-header">
+        <div class="comparison-header-left">
+            <span class="comparison-icon">⚖️</span>
+            <div>
+                <h3>Stock Compare</h3>
+                <p>Compare two stocks side by side</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="comparison-container">
+        <div class="comparison-box">
+            <div class="comparison-select-wrapper">
+                <div class="comparison-selected" onclick="toggleComparisonDropdown('compareDropdown1')">
+                    <div class="comparison-selected-info">
+                        <div class="comparison-selected-icon" id="cmpSelectedIcon1">🌐</div>
+                        <div>
+                            <span class="comparison-selected-symbol" id="cmpSelectedSymbol1">GOOGL</span>
+                            <span class="comparison-selected-company" id="cmpSelectedCompany1">Google</span>
+                        </div>
+                    </div>
+                    <span class="comparison-dropdown-arrow">▾</span>
+                </div>
+                <div class="comparison-dropdown" id="compareDropdown1">
+                    {% for symbol, company in companies.items() %}
+                    <div class="comparison-option" onclick="selectComparisonStock('compareStock1', '{{ symbol }}', '{{ company }}')">
+                        <span class="cmp-opt-icon">{{ symbol[0] }}</span>
+                        <div class="cmp-opt-info">
+                            <span class="cmp-opt-company">{{ company }}</span>
+                            <span class="cmp-opt-symbol">{{ symbol }}</span>
+                        </div>
+                        <span class="cmp-opt-arrow">→</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-vs-wrapper">
+            <div class="comparison-vs">VS</div>
+            <div class="comparison-vs-line"></div>
+        </div>
+
+        <div class="comparison-box">
+            <div class="comparison-select-wrapper">
+                <div class="comparison-selected" onclick="toggleComparisonDropdown('compareDropdown2')">
+                    <div class="comparison-selected-info">
+                        <div class="comparison-selected-icon" id="cmpSelectedIcon2">🍎</div>
+                        <div>
+                            <span class="comparison-selected-symbol" id="cmpSelectedSymbol2">AAPL</span>
+                            <span class="comparison-selected-company" id="cmpSelectedCompany2">Apple</span>
+                        </div>
+                    </div>
+                    <span class="comparison-dropdown-arrow">▾</span>
+                </div>
+                <div class="comparison-dropdown" id="compareDropdown2">
+                    {% for symbol, company in companies.items() %}
+                    <div class="comparison-option" onclick="selectComparisonStock('compareStock2', '{{ symbol }}', '{{ company }}')">
+                        <span class="cmp-opt-icon">{{ symbol[0] }}</span>
+                        <div class="cmp-opt-info">
+                            <span class="cmp-opt-company">{{ company }}</span>
+                            <span class="cmp-opt-symbol">{{ symbol }}</span>
+                        </div>
+                        <span class="cmp-opt-arrow">→</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="compareStock1" value="GOOGL">
+    <input type="hidden" id="compareStock2" value="AAPL">
+
+    <div id="comparisonResult" class="comparison-result">
+        <div class="comparison-placeholder">
+            <span class="placeholder-icon">🔍</span>
+            <p>Select two stocks to compare</p>
+            <span class="placeholder-sub">Get insights at a glance</span>
+        </div>
+    </div>
+</section>
+
+<footer>
+        <p>© 2026 StockPredict | AI-Powered Stock Price Prediction Dashboard</p>
+ </footer>
 
 
 </body>
