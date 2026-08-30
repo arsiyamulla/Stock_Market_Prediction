@@ -913,6 +913,63 @@ def live_stock():
 
         })
 
+# =========================================================
+# DOWNLOAD CSV
+# =========================================================
+
+@app.route("/download-csv")
+def download_csv():
+    
+    stock = request.args.get(
+        "stock",
+        "GOOGL"
+    )
+    
+    if stock not in COMPANIES:
+        stock = "GOOGL"
+    
+    file_path = os.path.join(
+        "data",
+        f"{stock}.csv"
+    )
+    
+    if not os.path.exists(file_path):
+        return jsonify({
+            "error": "CSV file not found"
+        }), 404
+    
+    try:
+        # Read the CSV
+        dataset = pd.read_csv(file_path)
+        
+        # Rename first column to Date if needed
+        dataset.rename(
+            columns={dataset.columns[0]: "Date"},
+            inplace=True
+        )
+        
+        # Create CSV in memory
+        from io import StringIO
+        csv_buffer = StringIO()
+        dataset.to_csv(csv_buffer, index=False)
+        csv_buffer.seek(0)
+        
+        # Send as downloadable file
+        from flask import Response
+        return Response(
+            csv_buffer.getvalue(),
+            mimetype="text/csv",
+            headers={
+                "Content-Disposition": f"attachment; filename={stock}_stock_data.csv"
+            }
+        )
+        
+    except Exception as e:
+        return jsonify({
+            "error": str(e)
+        }), 500
+    
+
 
 # =========================================================
 # RUN FLASK

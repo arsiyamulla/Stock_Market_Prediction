@@ -2657,11 +2657,15 @@ function updateComparison() {
                         <span class="detail-value" style="color: ${data2.up ? '#16a34a' : '#dc2626'}">
                             ${data2.up ? '▲ Bullish' : '▼ Bearish'}
                         </span>
+
+                        
                     </div>
                 </div>
             </div>
         </div>
     `;
+
+    
 }
 
 // Auto update on load
@@ -2725,6 +2729,126 @@ document.addEventListener('click', function(event) {
             wrapper.classList.remove('active');
         });
     }
+});
+
+// =====================================================
+// CSV DOWNLOAD FUNCTIONALITY
+// =====================================================
+
+document.addEventListener("DOMContentLoaded", function() {
+    
+    const downloadBtn = document.getElementById("downloadCsvBtn");
+    const csvPopup = document.getElementById("csvDownloadPopup");
+    const csvPopupContent = document.getElementById("csvDownloadPopupContent");
+    const csvPopupClose = document.getElementById("csvPopupCloseBtn");
+    const csvPopupStock = document.getElementById("csvPopupStock");
+    const csvPopupFile = document.getElementById("csvPopupFile");
+    
+    // =====================================================
+    // SHOW SUCCESS POPUP
+    // =====================================================
+    
+    function showCsvPopup(stock, company) {
+        // Update stock name
+        if (csvPopupStock) {
+            csvPopupStock.textContent = company + " (" + stock + ")";
+        }
+        
+        // Update file name
+        if (csvPopupFile) {
+            csvPopupFile.textContent = "📄 " + stock + "_stock_data.csv";
+        }
+        
+        // Show popup
+        if (csvPopup) {
+            csvPopup.style.display = "flex";
+        }
+        
+        // Animate in
+        setTimeout(function() {
+            if (csvPopupContent) {
+                csvPopupContent.classList.add("show");
+            }
+        }, 20);
+        
+        // Auto-close after 4 seconds
+        setTimeout(function() {
+            closeCsvPopup();
+        }, 4000);
+    }
+    
+    // =====================================================
+    // CLOSE POPUP
+    // =====================================================
+    
+    function closeCsvPopup() {
+        if (csvPopupContent) {
+            csvPopupContent.classList.remove("show");
+        }
+        
+        setTimeout(function() {
+            if (csvPopup) {
+                csvPopup.style.display = "none";
+            }
+        }, 250);
+    }
+    
+    // =====================================================
+    // CLOSE BUTTON
+    // =====================================================
+    
+    if (csvPopupClose) {
+        csvPopupClose.addEventListener("click", closeCsvPopup);
+    }
+    
+    // =====================================================
+    // CLICK OUTSIDE
+    // =====================================================
+    
+    if (csvPopup) {
+        csvPopup.addEventListener("click", function(event) {
+            if (event.target === csvPopup) {
+                closeCsvPopup();
+            }
+        });
+    }
+    
+    // =====================================================
+    // ESC KEY
+    // =====================================================
+    
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            closeCsvPopup();
+        }
+    });
+    
+    // =====================================================
+    // DOWNLOAD BUTTON CLICK
+    // =====================================================
+    
+    if (downloadBtn) {
+        downloadBtn.addEventListener("click", function() {
+            
+            // Get current stock
+            const customSelect = document.getElementById("customStockSelect");
+            const stock = customSelect ? customSelect.dataset.stock : "GOOGL";
+            
+            // Get company name
+            const selectedCompany = document.getElementById("selectedCompany");
+            const company = selectedCompany ? selectedCompany.textContent.trim() : "Google";
+            
+            // Trigger download
+            window.location.href = "/download-csv?stock=" + encodeURIComponent(stock);
+            
+            // Show success popup after a short delay
+            setTimeout(function() {
+                showCsvPopup(stock, company);
+            }, 500);
+            
+        });
+    }
+    
 });
 
 // =====================================================

@@ -465,8 +465,39 @@
 
         </div>
 
+ <!-- =====================================================
+     DOWNLOAD CSV SECTION - COMPACT
+===================================================== -->
+<section class="download-compact-section">
+    <div class="download-compact-card">
+        <div class="compact-left">
+            <div class="compact-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                    <path d="M14 2v6h6"/>
+                    <path d="M12 18v-6"/>
+                    <path d="M9 15l3 3 3-3"/>
+                </svg>
+            </div>
+            <div>
+                <h4>Export Data</h4>
+                <p>Download historical stock data as CSV</p>
+            </div>
+        </div>
+        
+        <button class="download-compact-btn" id="downloadCsvBtn">
+            <span>Download CSV</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+        </button>
     </div>
+</section>
 
+
+</div>
 
 
     <!-- =================================================
@@ -2524,7 +2555,7 @@ document.addEventListener(
 </script>
 
 <!-- =====================================================
-     WATCHLIST POPUP
+     WATCHLIST POPUP - FIXED CLOSE BUTTON
 ===================================================== -->
 
 <div
@@ -2537,19 +2568,18 @@ document.addEventListener(
         id="watchlistPopupContent"
     >
 
+        <!-- FIXED: Changed ID to watchlistPopupCloseBtn -->
         <button
             type="button"
             class="watchlist-popup-close"
-            id="watchlistPopupClose"
+            id="watchlistPopupCloseBtn"
         >
             &times;
         </button>
 
-
         <div class="watchlist-popup-icon">
             ★
         </div>
-
 
         <div class="watchlist-popup-message">
 
@@ -2558,7 +2588,7 @@ document.addEventListener(
             </strong>
 
             <span id="watchlistPopupStock">
-                Apple (AAPL)
+                Google (GOOGL)
             </span>
 
             <p id="watchlistPopupText">
@@ -2577,8 +2607,7 @@ document.addEventListener(
 <div class="stock-detail-overlay" id="stockDetailOverlay">
     <div class="stock-detail-popup" id="stockDetailPopup">
         
-        <button class="popup-close-btn" id="popupCloseBtn" onclick="closeStockPopup()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+<button class="popup-close-btn" id="stockPopupCloseBtn" onclick="closeStockPopup()">            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
         </button>
@@ -2722,6 +2751,36 @@ document.addEventListener(
 <footer>
         <p>© 2026 StockPredict | AI-Powered Stock Price Prediction Dashboard</p>
  </footer>
+
+<!-- =====================================================
+     CSV DOWNLOAD SUCCESS POPUP
+===================================================== -->
+
+<div class="success-overlay" id="csvDownloadPopup">
+    <div class="success-popup" id="csvDownloadPopupContent">
+        
+        <!-- CLOSE BUTTON -->
+        <button type="button" class="popup-close" id="csvPopupCloseBtn">
+            &times;
+        </button>
+        
+        <!-- SUCCESS ICON -->
+        <div class="success-icon" style="background: #22c55e;">
+            ✓
+        </div>
+        
+        <!-- MESSAGE -->
+        <div class="success-message">
+            <strong>✅ Downloaded Successfully!</strong>
+            <span id="csvPopupStock">Google (GOOGL)</span>
+            <div class="popup-price" id="csvPopupFile" style="font-size: 14px; color: #64748b;">
+                📄 GOOGL_stock_data.csv
+            </div>
+            <span id="csvPopupMessage">Your CSV file has been downloaded</span>
+        </div>
+        
+    </div>
+</div>
 
 
 </body>
