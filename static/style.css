@@ -5185,7 +5185,7 @@ body.dark .live-badge-news {
     height: 36px;
     border: none;
     border-radius: 50%;
-    background: #f1f5f9;
+    background: #f1f6f8;
     color: #64748b;
     cursor: pointer;
     display: flex;
@@ -5294,12 +5294,12 @@ body.dark .live-badge-news {
 
 .popup-change-badge.positive {
     background: rgba(22, 163, 74, 0.12);
-    color: #139041;
+    color: #16a34a;
 }
 
 .popup-change-badge.negative {
     background: rgba(220, 38, 38, 0.12);
-    color: #be2121;
+    color: #dc2626;
 }
 
 .popup-change-label {
@@ -6861,4 +6861,59 @@ body.dark .comparison-dropdown::-webkit-scrollbar-thumb:hover {
         font-size: 12px;
         width: 100%;
     }
+}
+/* =====================================================
+   SMOOTH SCROLLING
+===================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Optional: Add scroll margin so fixed navbar doesn't cover content */
+section[id],
+div[id] {
+    scroll-margin-top: 85px;
+}
+
+/* Nav links hover effect */
+.nav-links a {
+    position: relative;
+    text-decoration: none;
+    color: #334155;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    padding: 8px 0;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #2563eb;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+/* DARK MODE */
+body.dark .nav-links a {
+    color: #e2e8f0;
+}
+
+body.dark .nav-links a:hover {
+    color: #60a5fa;
+}
+
+body.dark .nav-links a::after {
+    background: #60a5fa;
 }
