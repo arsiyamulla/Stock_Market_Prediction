@@ -5589,7 +5589,7 @@ body.dark .popup-news-label {
 }
 
 .popup-close-btn:hover {
-    background: #e2e8f0;
+    background: #dbdddf;
     color: #0f172a;
     transform: rotate(90deg);
 }
