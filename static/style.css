@@ -5371,7 +5371,7 @@ body.dark .live-badge-news {
     border: none;
     border-radius: 14px;
     background: linear-gradient(135deg, #2058d0, #4941d7);
-    color: white;
+    color: rgb(196, 195, 195);
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
