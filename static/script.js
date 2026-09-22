@@ -1468,9 +1468,8 @@ function handleChatQuestion(question) {
     }
 
 
-    addUserMessage(
-        question
-    );
+    addUserMessage(question);
+    playTickSound();
 
 
     if (chatbotQuestions) {
@@ -1621,6 +1620,26 @@ function getBotResponse(message) {
 
 }
 
+// 🔊 Tick sound
+function playTickSound() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(1400, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.05);
+
+    gain.gain.setValueAtTime(0.35, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.05);
+}
 
 // =====================================================
 // SEND CHAT MESSAGE
@@ -1646,13 +1665,9 @@ function sendChatMessage() {
     }
 
 
-    addUserMessage(
-        message
-    );
-
-
-    chatbotInput.value =
-        "";
+    addUserMessage(message);
+    playTickSound();     // 🔊 Play sound
+    chatbotInput.value = "";
 
 
     if (chatbotQuestions) {
@@ -2848,7 +2863,26 @@ document.addEventListener("DOMContentLoaded", function() {
             
         });
     }
-    
+
+    /// 🔊 Tick sound
+function playTickSound() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "square";
+    osc.frequency.value = 1200;
+
+    gain.gain.setValueAtTime(0.03, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.04);
+}
 });
 
 // =====================================================
