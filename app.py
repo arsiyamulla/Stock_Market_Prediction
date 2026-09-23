@@ -5,7 +5,6 @@ import os
 from sklearn.linear_model import LinearRegression
 import yfinance as yf
 
-
 app = Flask(__name__)
 
 
