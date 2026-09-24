@@ -135,7 +135,7 @@ body {
 }
 
 .btn-secondary {
-    background: white;
+    background: rgb(247, 245, 245);
     color: #334155;
     border: 1px solid #dbe2ea;
 }
