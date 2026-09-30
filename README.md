@@ -1,4 +1,4 @@
-# Google Stock Price Prediction Project
+# Stock Price Prediction Project
 
 ## 👩‍💻 Student Information
 
@@ -11,13 +11,13 @@
 
 ## 📌 Project Title
 
-**Google Stock Price Prediction and Visualization Using Python**
+** Stock Price Prediction and Visualization Using Python**
 
 ---
 
 ## 📖 Project Description
 
-This project analyzes historical **Google (GOOG)** stock market data and visualizes the trend of stock closing prices using Python data analysis libraries.
+This project analyzes historical stock market data and visualizes the trend of stock closing prices using Python data analysis libraries.
 
 The project demonstrates the basic workflow of a stock market analysis system:
 
@@ -36,13 +36,16 @@ The project demonstrates the basic workflow of a stock market analysis system:
 * **Pandas**
 * **Matplotlib**
 * **yfinance**
+*  **MySQL**
+*  **Machin Learning**
+*  **HTML,CSS,JS**
 
 ---
 
 ## 📂 Project Files
 
 * `stocks_code.py` – Main Python program
-* `download_data.py` – Downloads Google stock data
+* `download_data.py` – Downloads stock data
 * `Google_Stock_Price_Train.csv` – Dataset file
 * `Stock Price Prediction.docx` – Project report
 * `Stock Price Prediction_synopsis.pdf` – Synopsis
@@ -67,14 +70,14 @@ python download_data.py
 ### 3. Run the project
 
 ```bash
-python stocks_code.py
+python app.py
 ```
 
 ---
 
 ## 📊 Output
 
-The program displays a graph representing the **historical closing prices of Google stock** over time.
+The program displays a graph representing the **historical closing prices of stock** over time.
 
 ---
 
